@@ -4,11 +4,11 @@ enum Color:
 class Piece(c: Color) {
   val color: Color = c;
 
-  def availableMoves(position: Position, field: Field): Array[Position] = {
-    return Array.empty[Position];
+  def availableMoves(position: Position, field: Field): List[Position] = {
+    throw NotImplementedError()
   }
 
   def getSymbol(): String = {
-    return null;
+    throw NotImplementedError()
   }
 }

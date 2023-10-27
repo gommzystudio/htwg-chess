@@ -58,10 +58,6 @@ case class Field(p: Map[Position, Piece]) {
 
     piece match {
       case Some(p) => {
-        if (!checkLegality(p, from, to)) {
-          return this
-        }
-
         val newPieces = pieces - from + (to -> p)
         return Field(newPieces)
       }

@@ -1,4 +1,5 @@
 import scala.annotation.switch
+import scala.collection.mutable.ArrayBuffer
 class Pawn(c: Color) extends Piece(c) {
   override def getSymbol() = {
     return if (c == Color.White) "♙" else "♟"
@@ -7,54 +8,54 @@ class Pawn(c: Color) extends Piece(c) {
   override def availableMoves(
       position: Position,
       field: Field
-  ): Array[Position] = {
+  ): List[Position] = {
     if (c == Color.White) {
-      val moves = Array[Position]()
+      var moves = List[Position]()
 
       // Standard move
-      if (field.getPiece(position.getX(), position.getY() + 1) == None) {
-        moves :+ Position(position.getX(), position.getY() + 1)
+      if (field.getPiece(position.x, position.y + 1) == None) {
+        moves = Position(position.x, position.y + 1) :: moves
       }
 
       // First move
-      if (position.getY() == 2) {
-        if (field.getPiece(position.getX(), position.getY() + 2) == None) {
-          moves :+ Position(position.getX(), position.getY() + 2)
+      if (position.y == 2) {
+        if (field.getPiece(position.x, position.y + 2) == None) {
+          moves = Position(position.x, position.y + 2) :: moves
         }
       }
 
       // Capture
-      if (field.getPiece(position.getX() + 1, position.getY() + 1) != None) {
-        moves :+ Position(position.getX() + 1, position.getY() + 1)
+      if (field.getPiece(position.x + 1, position.y + 1) != None) {
+        moves = Position(position.x + 1, position.y + 1) :: moves
       }
 
-      if (field.getPiece(position.getX() - 1, position.getY() + 1) != None) {
-        moves :+ Position(position.getX() - 1, position.getY() + 1)
+      if (field.getPiece(position.x - 1, position.y + 1) != None) {
+        moves = Position(position.x - 1, position.y + 1) :: moves
       }
 
       return moves
     } else {
-      val moves = Array[Position]()
+      var moves = List[Position]()
 
       // Standard move
-      if (field.getPiece(position.getX(), position.getY() - 1) == None) {
-        moves :+ Position(position.getX(), position.getY() - 1)
+      if (field.getPiece(position.x, position.y - 1) == None) {
+        moves = Position(position.x, position.y - 1) :: moves
       }
 
       // First move
-      if (position.getY() == 7) {
-        if (field.getPiece(position.getX(), position.getY() - 2) == None) {
-          moves :+ Position(position.getX(), position.getY() - 2)
+      if (position.y == 7) {
+        if (field.getPiece(position.x, position.y - 2) == None) {
+          moves = Position(position.x, position.y - 2) :: moves
         }
       }
 
       // Capture
-      if (field.getPiece(position.getX() + 1, position.getY() - 1) != None) {
-        moves :+ Position(position.getX() + 1, position.getY() - 1)
+      if (field.getPiece(position.x + 1, position.y - 1) != None) {
+        moves = Position(position.x + 1, position.y - 1) :: moves
       }
 
-      if (field.getPiece(position.getX() - 1, position.getY() - 1) != None) {
-        moves :+ Position(position.getX() - 1, position.getY() - 1)
+      if (field.getPiece(position.x - 1, position.y - 1) != None) {
+        moves = Position(position.x - 1, position.y - 1) :: moves
       }
 
       return moves
