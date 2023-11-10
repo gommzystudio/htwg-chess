@@ -1,4 +1,11 @@
+import model.pieces.{Piece, Rook}
 import org.scalatest.wordspec.AnyWordSpec
+import model.*
+import model.pieces.*
+import controller.Controller
+import view.TUI
+import scala.io.StdIn
+
 class PieceSpec extends AnyWordSpec {
   "A Piece" when {
     "created" should {
@@ -63,12 +70,6 @@ class PieceSpec extends AnyWordSpec {
         assert(newField.pieces.get(to) === None)
       }
     }
-    "printField is called" should {
-      "print the field" in {
-        val field = new Field(null)
-        field.printField()
-      }
-    }
     "a field can be created with a custom map" should {
       "return a new Field with the custom map" in {
         val map = Map(new Position(1, 1) -> new Rook(Color.White))
@@ -96,6 +97,46 @@ class PieceSpec extends AnyWordSpec {
         assert(position.x === 1)
         assert(position.x === 1)
       }
+    }
+  }
+
+  "A Controller" when {
+    "created" should {
+      "be able to start a game" in {
+        val controller = new Controller()
+        controller.startGame()
+        assert(controller.currentField != null)
+      }
+    }
+    "a game is started" should {
+      "be able to move a piece" in {
+        val controller = new Controller()
+        controller.startGame()
+        val from = new Position(1, 2)
+        val to = new Position(1, 3)
+        val lastField = controller.currentField;
+        controller.movePiece(from, to)
+        assert(controller.currentField != lastField)
+      }
+    }
+  }
+
+  "A TUI" when {
+    "created" should {
+      "be able to print a field" in {
+        val controller = new Controller()
+        controller.startGame()
+        val view = new TUI(controller)
+        view.printField(controller.currentField)
+      }
+      "be able to wait for input and move a piece" in {
+        val controller = new Controller()
+        controller.startGame()
+        val view = new TUI(controller)
+        // view.waitForInput()
+
+      }
+
     }
   }
 }

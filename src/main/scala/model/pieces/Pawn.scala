@@ -1,5 +1,11 @@
+package model.pieces
+
 import scala.annotation.switch
 import scala.collection.mutable.ArrayBuffer
+
+import model.Position
+import model.Field
+
 class Pawn(c: Color) extends Piece(c) {
   override def getSymbol() = {
     return if (c == Color.White) "♙" else "♟"

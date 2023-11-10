@@ -1,7 +1,12 @@
+package model.pieces
+
+import model.Position
+import model.Field
+
 enum Color:
   case Black, White;
 
-class Piece(c: Color) {
+case class Piece(c: Color) {
   val color: Color = c;
 
   def availableMoves(position: Position, field: Field): List[Position] = {
