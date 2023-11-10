@@ -25,5 +25,7 @@ jobs:
         run: sbt compile
       - name: Run tests
         run: sbt clean coverage test
+      - name: Run coverage report
+        run: sbt coverageReport
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2.2.3
