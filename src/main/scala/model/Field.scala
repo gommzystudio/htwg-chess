@@ -1,4 +1,9 @@
+package model
+
 import scala.collection.immutable.Map
+
+import model.pieces.*
+import model.Position
 
 case class Field(p: Map[Position, Piece]) {
   val pieces = p match {
@@ -58,10 +63,6 @@ case class Field(p: Map[Position, Piece]) {
 
     piece match {
       case Some(p) => {
-        if (!checkLegality(p, from, to)) {
-          return this
-        }
-
         val newPieces = pieces - from + (to -> p)
         return Field(newPieces)
       }
@@ -73,24 +74,5 @@ case class Field(p: Map[Position, Piece]) {
 
   def getPiece(x: Int, y: Int): Option[Piece] = {
     return pieces.get(Position(x, y))
-  }
-
-  def printField() = {
-    println("  a b c d e f g h")
-    println("  ---------------")
-
-    for (y <- 8 to 1 by -1) {
-      print(y + "|")
-      for (x <- 1 to 8 by 1) {
-        pieces.get(Position(x, y)) match {
-          case Some(piece) => print(piece.getSymbol() + " ")
-          case None        => print("  ")
-        }
-      }
-      println("|" + y)
-    }
-
-    println("  ---------------")
-    println("  a b c d e f g h")
   }
 }
