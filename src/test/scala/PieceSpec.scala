@@ -5,6 +5,7 @@ import model.pieces.*
 import controller.Controller
 import view.TUI
 import scala.io.StdIn
+import util.View
 
 class PieceSpec extends AnyWordSpec {
   "A Piece" when {
@@ -121,6 +122,26 @@ class PieceSpec extends AnyWordSpec {
     }
   }
 
+  "A generic view" when {
+    "created" should {
+      "be able to subscribe to a controller" in {
+        val controller = new Controller()
+        val view = new View(controller)
+        assert(controller.views.contains(view))
+      }
+      "can wait for input and exit" in {
+        val controller = new Controller()
+        val view = new View(controller)
+        view.waitForInput()
+      }
+      "can update" in {
+        val controller = new Controller()
+        val view = new View(controller)
+        view.update(controller.currentField)
+      }
+    }
+  }
+
   "A TUI" when {
     "created" should {
       "be able to print a field" in {
@@ -133,10 +154,11 @@ class PieceSpec extends AnyWordSpec {
         val controller = new Controller()
         controller.startGame()
         val view = new TUI(controller)
-        // view.waitForInput()
-
+        view.waitForInput(List("a2a3", "exit"))
+        assert(
+          controller.currentField.pieces.get(new Position(1, 3)).get != null
+        )
       }
-
     }
   }
 }
