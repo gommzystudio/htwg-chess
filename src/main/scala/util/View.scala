@@ -1,4 +1,4 @@
-package view
+package util
 
 import model.Field
 import controller.Controller

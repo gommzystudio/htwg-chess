@@ -1,4 +1,4 @@
-import view.View;
+import util.View;
 import controller.Controller;
 import view.TUI;
 

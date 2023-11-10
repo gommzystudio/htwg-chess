@@ -1,7 +1,7 @@
 package util
 
-import view.View
 import model.Field
+import util.View
 
 case class Updater() {
   var views = List[View]()
