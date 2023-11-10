@@ -7,11 +7,7 @@ import model.Position
 case class View(controller: Controller) {
   controller.addView(this);
 
-  def update(field: Field) = {
-    printField(field);
-  }
+  def update(field: Field) = {}
 
-  def printField(field: Field): Unit = {}
-
-  def waitForInput(): Unit = {}
+  def waitForInput(fakeInput: List[String] = List()) = {}
 }
