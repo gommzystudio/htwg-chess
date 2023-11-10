@@ -3,6 +3,7 @@ package view
 import model.Field
 import controller.Controller
 import model.Position
+import util.View
 
 class TUI(controller: Controller) extends View(controller) {
   override def printField(field: Field): Unit = {
