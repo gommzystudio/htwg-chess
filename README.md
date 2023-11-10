@@ -1,6 +1,6 @@
 ## sbt project compiled with Scala 3
 
-[![Coverage Status](https://coveralls.io/repos/github/gommzystudio/htwg-chess/badge.svg?branch=master)](https://coveralls.io/github/gommzystudio/htwg-chess?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/gommzystudio/htwg-chess/badge.svg)](https://coveralls.io/github/gommzystudio/htwg-chess)
 
 ### Run
 
