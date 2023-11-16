@@ -1,6 +1,6 @@
 # HTWG Chess - A Chess Game in Scala 3
 
-[GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/gommzystudio/htwg-chess/test)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/gommzystudio/htwg-chess/test)
 [![Coverage Status](https://coveralls.io/repos/github/gommzystudio/htwg-chess/badge.svg?branch=master)](https://coveralls.io/github/gommzystudio/htwg-chess?branch=master)
 
 ## Overview
