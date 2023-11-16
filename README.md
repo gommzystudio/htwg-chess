@@ -11,7 +11,7 @@ This project is a chess game built in Scala 3 with sbt for Software Engineering 
 - [x] TUI
 - [ ] GUI
 - [ ] Move Validation
-  - [] Pawn
+  - [ ] Pawn
     - [x] Single Move
     - [x] Double Move
     - [x] Capture
