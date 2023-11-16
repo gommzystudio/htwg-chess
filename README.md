@@ -2,6 +2,7 @@
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/gommzystudio/htwg-chess/scala.yml?branch=master) [![Coverage Status](https://coveralls.io/repos/github/gommzystudio/htwg-chess/badge.svg?branch=master)](https://coveralls.io/github/gommzystudio/htwg-chess?branch=master)
 
+
 ## Overview
 
 This project is a chess game built in Scala 3 with sbt for Software Engineering at HTWG Konstanz.
