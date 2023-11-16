@@ -1,15 +1,45 @@
-## sbt project compiled with Scala 3
+# HTWG Chess - A Chess Game in Scala 3
 
+[![Build Status](https://travis-ci.com/username/repository.svg?branch=master)](https://travis-ci.com/username/repository)
 [![Coverage Status](https://coveralls.io/repos/github/gommzystudio/htwg-chess/badge.svg?branch=master)](https://coveralls.io/github/gommzystudio/htwg-chess?branch=master)
 
-### Run
+## Overview
 
-This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
+This project is a chess game built in Scala 3 with sbt for Software Engineering at HTWG Konstanz.
 
-For more information on the sbt-dotty plugin, see the
-[scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
+## Features
 
-### Test
+- [x] TUI
+- [] GUI
+- [] Move Validation
+  - [] Pawn
+    - [x] Single Move
+    - [x] Double Move
+    - [x] Capture
+    - [] Promotion
+    - [] En Passant
+  - [] Rook
+    - [] Normal Move
+    - [] Castling
+  - [] Knight
+    - [] Normal Move
+  - [] Bishop
+    - [] Normal Move
+  - [] Queen
+    - [] Normal Move
+  - [] King
+    - [] Normal Move
+    - [] Castling
+- [] Game State
+  - [] Check
+  - [] Checkmate
+  - [] Draw by Repetition
+  - [] Draw by 50 Moves
+  - [] Draw by Insufficient Material
+  - [] Draw by Stalemate
 
-`sbt clean coverage test` - run tests with coverage
-`sbt coverageReport` - generate coverage report
+## Execution
+
+This is a standard sbt project. You can compile the code with `sbt compile` and run it with `sbt run`. `sbt console` will start a Scala 3 REPL.
+
+For more information on the sbt-dotty plugin, see the [scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
