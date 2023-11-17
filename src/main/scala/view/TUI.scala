@@ -45,6 +45,6 @@ class TUI(controller: Controller) extends View(controller) {
 
     controller.movePiece(from, to);
 
-    waitForInput(fakeInput.tail);
+    if (fakeInput.isEmpty) waitForInput() else waitForInput(fakeInput.tail);
   }
 }
