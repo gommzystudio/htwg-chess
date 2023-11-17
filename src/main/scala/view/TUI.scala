@@ -4,10 +4,11 @@ import model.Field
 import controller.Controller
 import model.Position
 import util.View
+import model.GameState
 
 class TUI(controller: Controller) extends View(controller) {
-  override def update(field: Field): Unit = {
-    printField(field);
+  override def update(gameState: GameState): Unit = {
+    printField(gameState.getField());
   }
 
   def printField(field: Field): Unit = {

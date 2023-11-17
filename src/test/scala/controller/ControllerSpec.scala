@@ -11,7 +11,7 @@ class ControllerSpec extends AnyWordSpec {
       "create a new field and update views" in {
         val controller = new Controller()
         controller.startGame()
-        assert(controller.currentField != null)
+        assert(controller.gameState != null)
       }
     }
     "movePiece is called" should {
@@ -22,9 +22,9 @@ class ControllerSpec extends AnyWordSpec {
         controller.startGame()
         val from = Position(1, 1)
         val to = Position(1, 2)
-        val initialField = controller.currentField
+        val initinalState = controller.gameState
         controller.movePiece(from, to)
-        assert(controller.currentField != initialField)
+        assert(controller.gameState != initinalState)
       }
     }
   }

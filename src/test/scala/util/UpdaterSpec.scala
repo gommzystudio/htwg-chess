@@ -3,6 +3,8 @@ package test.util
 import org.scalatest.wordspec.AnyWordSpec
 import util.{Updater, View}
 import model.Field
+import model.FieldFactory
+import model.GameState
 
 class UpdaterSpec extends AnyWordSpec {
   "An Updater" when {
@@ -22,8 +24,8 @@ class UpdaterSpec extends AnyWordSpec {
     "update is called" should {
       "call update on all views" in {
         val updater = Updater()
-        val field = new Field()
-        updater.update(field)
+        val field = FieldFactory.createInitialField()
+        updater.update(GameState(field))
       }
     }
   }

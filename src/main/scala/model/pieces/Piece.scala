@@ -6,14 +6,21 @@ import model.Field
 enum Color:
   case Black, White;
 
-case class Piece(c: Color) {
+abstract class Piece(c: Color) {
   val color: Color = c;
 
   def availableMoves(position: Position, field: Field): List[Position] = {
-    throw NotImplementedError()
+    if (c == Color.White) {
+      return whiteAvailableMoves(position, field)
+    } else {
+      return whiteAvailableMoves(position.flipPosition(), field.flipBoard())
+        .map(
+          _.flipPosition()
+        );
+    }
   }
 
-  def getSymbol(): String = {
-    throw NotImplementedError()
-  }
+  def whiteAvailableMoves(position: Position, field: Field): List[Position]
+
+  def getSymbol(): String
 }

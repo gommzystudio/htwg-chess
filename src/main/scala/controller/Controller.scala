@@ -3,17 +3,18 @@ package controller
 import util.Updater
 import model.Field
 import model.Position
+import model.FieldFactory
+import model.GameState
 
 class Controller() extends Updater {
-  var currentField: Field = null;
+  var gameState: GameState = new GameState(FieldFactory.createInitialField());
 
   def startGame() = {
-    currentField = new Field();
-    update(currentField);
+    update(gameState);
   }
 
   def movePiece(from: Position, to: Position) = {
-    currentField = currentField.movePiece(from, to);
-    update(currentField);
+    gameState = gameState.movePiece(from, to);
+    update(gameState);
   }
 }

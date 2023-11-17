@@ -4,6 +4,8 @@ import org.scalatest.wordspec.AnyWordSpec
 import controller.Controller
 import util.View
 import model.Field
+import model.FieldFactory
+import model.GameState
 
 class ViewSpec extends AnyWordSpec {
   "A View" when {
@@ -19,7 +21,7 @@ class ViewSpec extends AnyWordSpec {
         val controller = new Controller()
         val view = new View(controller)
         assertThrows[NotImplementedError] {
-          view.update(new Field())
+          view.update(GameState(FieldFactory.createInitialField()))
         }
       }
     }

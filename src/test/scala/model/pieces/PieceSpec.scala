@@ -5,7 +5,8 @@ import org.scalatest.matchers.should.Matchers
 
 import model.Field
 import model.Position
-import model.pieces.{Color, Piece}
+import model.pieces.Piece
+import model.pieces.Color
 
 class PieceSpec extends AnyWordSpec with Matchers {
   "A Piece" when {

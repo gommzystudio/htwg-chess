@@ -2,6 +2,7 @@ package util
 
 import model.Field
 import util.View
+import model.GameState
 
 case class Updater() {
   var views = List[View]()
@@ -10,9 +11,9 @@ case class Updater() {
     views = view :: views
   }
 
-  def update(field: Field) = {
+  def update(gameState: GameState) = {
     for (view <- views) {
-      view.update(field: Field)
+      view.update(gameState)
     }
   }
 }
