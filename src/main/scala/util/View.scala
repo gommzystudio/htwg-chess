@@ -1,13 +1,14 @@
 package util
 
 import model.Field
-import controller.Controller
+import util.Updater
 import model.Position
 
-case class View(controller: Controller) {
-  controller.addView(this);
+case class View(updater: Updater) {
+  updater.addView(this);
 
-  def update(field: Field) = {}
+  def update(field: Field): Unit = throw NotImplementedError();
 
-  def waitForInput(fakeInput: List[String] = List()) = {}
+  def waitForInput(fakeInput: List[String] = List()): Unit =
+    throw NotImplementedError();
 }
