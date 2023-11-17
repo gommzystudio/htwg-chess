@@ -4,6 +4,10 @@ case class Position(x: Int, y: Int) {
   def getCharX(): Char = {
     return (x + 'a' - 1).toChar
   }
+
+  def flipPosition(): Position = {
+    return Position(9 - x, 9 - y)
+  }
 }
 
 object Position {

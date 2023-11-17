@@ -8,7 +8,7 @@ class Controller() extends Updater {
   var currentField: Field = null;
 
   def startGame() = {
-    currentField = new Field(null);
+    currentField = new Field();
     update(currentField);
   }
 
