@@ -3,11 +3,12 @@ package util
 import model.Field
 import util.Updater
 import model.Position
+import model.GameState
 
 case class View(updater: Updater) {
   updater.addView(this);
 
-  def update(field: Field): Unit = throw NotImplementedError();
+  def update(gameState: GameState): Unit = throw NotImplementedError();
 
   def waitForInput(fakeInput: List[String] = List()): Unit =
     throw NotImplementedError();

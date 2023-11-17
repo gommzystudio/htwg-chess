@@ -5,45 +5,29 @@ import scala.collection.mutable.ArrayBuffer
 
 import model.Position
 import model.Field
+import model.moves.special.PawnFirstMoveValidator
+import model.moves.special.PawnStandardMoveValidator
+import model.moves.special.PawnCaptureMoveValidator
+import scala.compiletime.ops.boolean
 
 class Pawn(c: Color) extends Piece(c) {
+  val isEnPassantable: Boolean = false
+
   override def getSymbol() = {
     return if (c == Color.White) "♙" else "♟"
   }
 
-  override def availableMoves(
+  override def whiteAvailableMoves(
       position: Position,
       field: Field
   ): List[Position] = {
-    if (c == Color.White) {
-      var moves = List[Position]()
+    val standardMoveValidator = new PawnStandardMoveValidator()
+    val firstMoveValidator = new PawnFirstMoveValidator()
+    val captureMoveValidator = new PawnCaptureMoveValidator()
 
-      // Standard move
-      if (field.getPiece(position.x, position.y + 1) == None) {
-        moves = Position(position.x, position.y + 1) :: moves
-      }
+    standardMoveValidator.setNext(firstMoveValidator)
+    firstMoveValidator.setNext(captureMoveValidator)
 
-      // First move
-      if (position.y == 2) {
-        if (field.getPiece(position.x, position.y + 2) == None) {
-          moves = Position(position.x, position.y + 2) :: moves
-        }
-      }
-
-      // Capture
-      if (field.getPiece(position.x + 1, position.y + 1) != None) {
-        moves = Position(position.x + 1, position.y + 1) :: moves
-      }
-
-      if (field.getPiece(position.x - 1, position.y + 1) != None) {
-        moves = Position(position.x - 1, position.y + 1) :: moves
-      }
-
-      return moves
-    } else {
-      return availableMoves(position.flipPosition(), field.flipBoard()).map(
-        _.flipPosition()
-      );
-    }
+    return standardMoveValidator.getValidMoves(this, position, field, List())
   }
 }
