@@ -23,7 +23,7 @@ class ControllerSpec extends AnyWordSpec {
         val from = Position(1, 1)
         val to = Position(1, 2)
         val initinalState = controller.gameState
-        controller.movePiece(from, to)
+        controller.runMoveCommand(from, to)
         assert(controller.gameState != initinalState)
       }
     }

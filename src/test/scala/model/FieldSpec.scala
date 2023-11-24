@@ -16,38 +16,6 @@ class FieldSpec extends AnyWordSpec {
         assert(piece.get === field.pieces.get(new Position(1, 1)).get)
       }
     }
-    "can check move leglity" should {
-      "return true when the move is legal" in {
-        val field = FieldFactory.createInitialField()
-        val piece = field.getPiece(1, 2).get
-        val from = new Position(1, 2)
-        val to = new Position(1, 3)
-        assert(field.checkLegality(piece, from, to) === true)
-      }
-      "return false when the move is illegal" in {
-        val field = FieldFactory.createInitialField()
-        val piece = field.getPiece(1, 2).get
-        val from = new Position(1, 2)
-        val to = new Position(1, 1)
-        assert(field.checkLegality(piece, from, to) === false)
-      }
-    }
-    "when movePiece is called" should {
-      "return a new Field with the piece moved" in {
-        val field = FieldFactory.createInitialField()
-        val from = new Position(1, 2)
-        val to = new Position(1, 3)
-        val newField = field.movePiece(from, to)
-        assert(newField.pieces.get(to).get === field.pieces.get(from).get)
-      }
-      "do nothing when there is no piece at the from position" in {
-        val field = FieldFactory.createInitialField()
-        val from = new Position(1, 3)
-        val to = new Position(1, 4)
-        val newField = field.movePiece(from, to)
-        assert(newField.pieces.get(to) === None)
-      }
-    }
     "a field can be created with a custom map" should {
       "return a new Field with the custom map" in {
         val map = Map(new Position(1, 1) -> new Rook(Color.White))
