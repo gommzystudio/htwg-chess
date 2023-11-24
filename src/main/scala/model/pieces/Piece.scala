@@ -2,6 +2,7 @@ package model.pieces
 
 import model.Position
 import model.Field
+import java.io.StringReader
 
 enum Color:
   case Black, White;

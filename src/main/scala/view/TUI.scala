@@ -5,6 +5,7 @@ import controller.Controller
 import model.Position
 import util.View
 import model.GameState
+import model.commands.MoveCommand
 
 class TUI(controller: Controller) extends View(controller) {
   override def update(gameState: GameState): Unit = {
@@ -43,7 +44,7 @@ class TUI(controller: Controller) extends View(controller) {
     val from = Position.fromChar(input.charAt(0), input.charAt(1).asDigit);
     val to = Position.fromChar(input.charAt(2), input.charAt(3).asDigit);
 
-    controller.movePiece(from, to);
+    controller.runMoveCommand(from, to);
 
     if (fakeInput.isEmpty) waitForInput() else waitForInput(fakeInput.tail);
   }

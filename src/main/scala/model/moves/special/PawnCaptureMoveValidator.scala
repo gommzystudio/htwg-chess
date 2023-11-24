@@ -20,12 +20,18 @@ class PawnCaptureMoveValidator extends MoveValidator {
     val leftPosition = Position(position.x - 1, position.y + 1)
     val rightPosition = Position(position.x + 1, position.y + 1)
     if (
-      field.getPiece(leftPosition.x, leftPosition.y).get.color != piece.color
+      field.getPiece(leftPosition.x, leftPosition.y) != None && field
+        .getPiece(leftPosition.x, leftPosition.y)
+        .get
+        .color != piece.color
     ) {
       newMoves += leftPosition
     }
     if (
-      field.getPiece(rightPosition.x, rightPosition.y).get.color != piece.color
+      field.getPiece(rightPosition.x, rightPosition.y) != None && field
+        .getPiece(rightPosition.x, rightPosition.y)
+        .get
+        .color != piece.color
     ) {
       newMoves += rightPosition
     }

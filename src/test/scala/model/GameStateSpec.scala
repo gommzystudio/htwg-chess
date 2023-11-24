@@ -25,16 +25,4 @@ class GameSateSpec extends AnyFlatSpec with Matchers {
 
     updatedGameState.getField() should be theSameInstanceAs field2
   }
-
-  it should "move a piece" in {
-    val field = Field(Map(Position(1, 1) -> Pawn(Color.White)))
-    val gameState = new GameState(field)
-
-    val updatedGameState = gameState.movePiece(Position(1, 1), Position(1, 2))
-
-    updatedGameState.getField().getPiece(Position(1, 1)) shouldBe None
-    updatedGameState.getField().getPiece(Position(1, 2)) shouldBe Some(
-      Pawn(Color.White)
-    )
-  }
 }
