@@ -23,5 +23,5 @@ abstract class Piece(c: Color) {
 
   def whiteAvailableMoves(position: Position, field: Field): List[Position]
 
-  def getSymbol(): StringReader
+  def getSymbol(): String
 }
