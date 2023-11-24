@@ -2,6 +2,7 @@ package model.pieces
 
 import model.Position
 import model.Field
+import java.io.StringReader
 
 enum Color:
   case Black, White;
@@ -22,5 +23,5 @@ abstract class Piece(c: Color) {
 
   def whiteAvailableMoves(position: Position, field: Field): List[Position]
 
-  def getSymbol(): String
+  def getSymbol(): StringReader
 }

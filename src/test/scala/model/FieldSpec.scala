@@ -34,8 +34,8 @@ class FieldSpec extends AnyWordSpec {
         })
         val newField = field.flipBoard()
         assert(
-          newField.pieces.get(new Position(1, 1)).get === field.pieces
-            .get(new Position(1, 8))
+          newField.pieces.get(new Position(8, 8)).get === field.pieces
+            .get(new Position(1, 1))
             .get
         )
       }
