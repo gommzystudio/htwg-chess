@@ -3,6 +3,7 @@ package model.moves
 import model.pieces.Piece
 import model.Position
 import model.Field
+import model.GameState
 
 trait MoveValidator {
   var nextMoveValidator: MoveValidator = _
@@ -18,8 +19,9 @@ trait MoveValidator {
       moves: List[Position]
   ): List[Position] = {
     if (nextMoveValidator != null)
-      nextMoveValidator.getValidMoves(piece, position, field, moves)
-    else moves
+      return nextMoveValidator.getValidMoves(piece, position, field, moves)
+    else
+      return moves
   }
 
   def getValidMoves(

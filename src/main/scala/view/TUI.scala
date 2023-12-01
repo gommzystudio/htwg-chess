@@ -7,6 +7,8 @@ import util.View
 import model.GameState
 import model.commands.MoveCommand
 
+import scala.util.{Try, Success, Failure}
+
 class TUI(controller: Controller) extends View(controller) {
   override def update(gameState: GameState): Unit = {
     printField(gameState.getField());
@@ -32,7 +34,9 @@ class TUI(controller: Controller) extends View(controller) {
     println("  a b c d e f g h")
   }
 
-  override def waitForInput(fakeInput: List[String] = List()): Unit = {
+  override def startView(): Unit = waitForInput();
+
+  def waitForInput(fakeInput: List[String] = List()): Unit = {
     println("Enter move (e.g. a2a3): ");
     val input =
       if (fakeInput.isEmpty) scala.io.StdIn.readLine() else fakeInput.head;
@@ -40,11 +44,15 @@ class TUI(controller: Controller) extends View(controller) {
     if (input == "exit") {
       return;
     }
-
-    val from = Position.fromChar(input.charAt(0), input.charAt(1).asDigit);
-    val to = Position.fromChar(input.charAt(2), input.charAt(3).asDigit);
-
-    controller.runMoveCommand(from, to);
+    if (input == "undo")
+      controller.undoCommand();
+    else if (input == "redo")
+      controller.redoCommand();
+    else {
+      val from = Position.fromChar(input.charAt(0), input.charAt(1).asDigit)
+      val to = Position.fromChar(input.charAt(2), input.charAt(3).asDigit)
+      controller.runMoveCommand(from, to)
+    }
 
     if (fakeInput.isEmpty) waitForInput() else waitForInput(fakeInput.tail);
   }

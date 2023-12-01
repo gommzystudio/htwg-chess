@@ -10,6 +10,5 @@ case class View(updater: Updater) {
 
   def update(gameState: GameState): Unit = throw NotImplementedError();
 
-  def waitForInput(fakeInput: List[String] = List()): Unit =
-    throw NotImplementedError();
+  def startView(): Unit = throw NotImplementedError();
 }

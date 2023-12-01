@@ -9,10 +9,9 @@ import model.moves.special.PawnFirstMoveValidator
 import model.moves.special.PawnStandardMoveValidator
 import model.moves.special.PawnCaptureMoveValidator
 import scala.compiletime.ops.boolean
+import model.Field
 
 class Pawn(c: Color) extends Piece(c) {
-  val isEnPassantable: Boolean = false
-
   override def getSymbol() = {
     return if (c == Color.White) "♙" else "♟"
   }
@@ -28,6 +27,11 @@ class Pawn(c: Color) extends Piece(c) {
     standardMoveValidator.setNext(firstMoveValidator)
     firstMoveValidator.setNext(captureMoveValidator)
 
-    return standardMoveValidator.getValidMoves(this, position, field, List())
+    return standardMoveValidator.getValidMoves(
+      this,
+      position,
+      field,
+      List()
+    )
   }
 }

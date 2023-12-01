@@ -3,6 +3,7 @@ package model.pieces
 import model.Position
 import model.Field
 import java.io.StringReader
+import model.GameState
 
 enum Color:
   case Black, White;

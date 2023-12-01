@@ -4,6 +4,7 @@ import model.moves.MoveValidator
 import model.pieces.Piece
 import model.Position
 import model.Field
+import model.GameState
 import scala.collection.mutable.ArrayBuffer
 import model.pieces.Pawn
 
@@ -16,11 +17,14 @@ class PawnStandardMoveValidator extends MoveValidator {
   ): List[Position] = {
     assert(piece.isInstanceOf[Pawn])
 
-    val newMoves = ArrayBuffer[Position]()
+    var newMoves = moves
+
     val newPosition = Position(position.x, position.y + 1)
     if (field.getPiece(newPosition.x, newPosition.y) == None) {
-      newMoves += newPosition
+      newMoves = newPosition :: newMoves
     }
-    return callNextMoveValidator(piece, position, field, newMoves.toList)
+
+
+    return callNextMoveValidator(piece, position, field, newMoves)
   }
 }

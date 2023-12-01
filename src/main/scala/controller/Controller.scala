@@ -5,24 +5,41 @@ import model.Field
 import model.Position
 import model.FieldFactory
 import model.GameState
-import model.commands.Command
+import model.pieces.Piece
 import model.commands.MoveCommand
+import scala.util.{Try, Success, Failure}
 
 class Controller() extends Updater {
-  val commands: List[Command] = List[Command]();
   var gameState: GameState = new GameState(FieldFactory.createInitialField());
 
   def startGame() = {
     update(gameState);
   }
 
-  def runMoveCommand(from: Position, to: Position): Unit = {
-    runCommand(new MoveCommand(from, to, gameState));
+  def undoCommand() = {
+    gameState = gameState.undoCommand();
+    update(gameState);
   }
 
-  def runCommand(command: Command): Unit = {
-    gameState = command.execute();
-    commands :+ command;
+  def redoCommand() = {
+    gameState = gameState.redoCommand();
     update(gameState);
+  }
+
+  def runMoveCommand(from: Position, to: Position): Unit = {
+    val pieceTry: Try[Piece] = Try(gameState.getField().getPiece(from).get)
+    pieceTry match {
+      case Success(piece) =>
+        if (!piece.availableMoves(from, gameState.getField()).contains(to)) {
+          println("Ungültiger Zug")
+          return
+        }
+        gameState = gameState.executeCommand(
+          new MoveCommand(from, to, gameState.getField())
+        )
+        update(gameState)
+      case Failure(_) =>
+        println("Kein Stück zum Bewegen")
+    }
   }
 }

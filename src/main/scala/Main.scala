@@ -7,5 +7,5 @@ def start = {
   val controller: Controller = Controller();
   val view: View = TUI(controller);
   controller.startGame();
-  view.waitForInput();
+  view.startView();
 }
