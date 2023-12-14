@@ -8,12 +8,14 @@ import model.GameState
 import model.pieces.Piece
 import model.commands.MoveCommand
 import scala.util.{Try, Success, Failure}
+import util.View
 
 class Controller() extends Updater {
   var gameState: GameState = new GameState(FieldFactory.createInitialField());
 
-  def startGame() = {
-    update(gameState);
+  override def addView(view: View) = {
+    views = view :: views
+    update(gameState)
   }
 
   def undoCommand() = {
