@@ -1,9 +1,8 @@
 package model.moves
 
 import model.pieces.Piece
-import model.Position
-import model.Field
-import model.GameState
+import model.position.PositionInterface
+import model.field.FieldInterface
 
 trait MoveValidator {
   var nextMoveValidator: MoveValidator = _
@@ -14,10 +13,10 @@ trait MoveValidator {
 
   def callNextMoveValidator(
       piece: Piece,
-      position: Position,
-      field: Field,
-      moves: List[Position]
-  ): List[Position] = {
+      position: PositionInterface,
+      field: FieldInterface,
+      moves: List[PositionInterface]
+  ): List[PositionInterface] = {
     if (nextMoveValidator != null)
       return nextMoveValidator.getValidMoves(piece, position, field, moves)
     else
@@ -26,8 +25,8 @@ trait MoveValidator {
 
   def getValidMoves(
       piece: Piece,
-      position: Position,
-      field: Field,
-      moves: List[Position]
-  ): List[Position]
+      position: PositionInterface,
+      field: FieldInterface,
+      moves: List[PositionInterface]
+  ): List[PositionInterface]
 }

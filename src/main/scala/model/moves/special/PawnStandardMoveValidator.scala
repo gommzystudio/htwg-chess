@@ -2,28 +2,28 @@ package model.moves.special
 
 import model.moves.MoveValidator
 import model.pieces.Piece
-import model.Position
-import model.Field
-import model.GameState
+import model.position.PositionInterface
+import model.position.PositionBaseImpl
+import model.field.FieldInterface
+import model.gamestate.GameStateInterface
 import scala.collection.mutable.ArrayBuffer
 import model.pieces.Pawn
 
 class PawnStandardMoveValidator extends MoveValidator {
   override def getValidMoves(
       piece: Piece,
-      position: Position,
-      field: Field,
-      moves: List[Position]
-  ): List[Position] = {
+      position: PositionInterface,
+      field: FieldInterface,
+      moves: List[PositionInterface]
+  ): List[PositionInterface] = {
     assert(piece.isInstanceOf[Pawn])
 
     var newMoves = moves
 
-    val newPosition = Position(position.x, position.y + 1)
-    if (field.getPiece(newPosition.x, newPosition.y) == None) {
+    val newPosition = PositionBaseImpl(position.getX(), position.getY() + 1)
+    if (field.getPiece(newPosition.getX(), newPosition.getY()) == None) {
       newMoves = newPosition :: newMoves
     }
-
 
     return callNextMoveValidator(piece, position, field, newMoves)
   }

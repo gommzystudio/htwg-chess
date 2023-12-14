@@ -1,7 +1,8 @@
 package model.pieces
 
-import model.Position
-import model.Field
+import model.field.FieldInterface
+import model.position.PositionInterface
+import model.pieces.Piece
 
 class Bishop(c: Color) extends Piece(c) {
   override def getSymbol() = {
@@ -9,9 +10,9 @@ class Bishop(c: Color) extends Piece(c) {
   }
 
   override def whiteAvailableMoves(
-      position: Position,
-      field: Field
-  ): List[Position] = {
+      position: PositionInterface,
+      field: FieldInterface
+  ): List[PositionInterface] = {
     return List()
   }
 }

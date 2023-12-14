@@ -1,20 +1,22 @@
 package controller
 
-import util.Updater
-import model.Field
-import model.Position
-import model.FieldFactory
-import model.GameState
+import util.updater.UpdaterBaseImpl
+import model.position.PositionInterface
+import model.field.FieldFactory
+import model.gamestate.GameStateBaseImpl
 import model.pieces.Piece
 import model.commands.MoveCommand
 import scala.util.{Try, Success, Failure}
-import util.View
+import util.view.ViewInterface
+import util.updater.UpdaterBaseImpl
 
-class Controller() extends Updater {
-  var gameState: GameState = new GameState(FieldFactory.createInitialField());
+class ControllerBaseImpl() extends ControllerInterface with UpdaterBaseImpl {
+  var gameState: GameStateBaseImpl = new GameStateBaseImpl(
+    FieldFactory.createInitialField()
+  );
 
-  override def addView(view: View) = {
-    views = view :: views
+  def addViewAndUpdate(view: ViewInterface) = {
+    addView(view)
     update(gameState)
   }
 
@@ -28,7 +30,7 @@ class Controller() extends Updater {
     update(gameState);
   }
 
-  def runMoveCommand(from: Position, to: Position): Unit = {
+  def runMoveCommand(from: PositionInterface, to: PositionInterface): Unit = {
     val pieceTry: Try[Piece] = Try(gameState.getField().getPiece(from).get)
     pieceTry match {
       case Success(piece) =>
@@ -43,5 +45,9 @@ class Controller() extends Updater {
       case Failure(_) =>
         println("Kein Stück zum Bewegen")
     }
+  }
+
+  def getGameSate(): GameStateBaseImpl = {
+    gameState
   }
 }

@@ -1,20 +1,23 @@
 package view
 
-import model.Field
-import controller.Controller
-import model.Position
-import util.View
-import model.GameState
+import model.field.FieldInterface
+import controller.ControllerBaseImpl
+import controller.ControllerInterface
+import model.position.PositionBaseImpl
+import util.view.ViewInterface
+import model.gamestate.GameStateInterface
 import model.commands.MoveCommand
+import util.updater.UpdaterInterface
 
 import scala.util.{Try, Success, Failure}
 
-class TUI(controller: Controller) extends View(controller) {
-  override def update(gameState: GameState): Unit = {
+class TUI(controller: ControllerInterface)
+    extends ViewInterface(controller.asInstanceOf[UpdaterInterface]) {
+  override def update(gameState: GameStateInterface): Unit = {
     printField(gameState.getField());
   }
 
-  def printField(field: Field): Unit = {
+  def printField(field: FieldInterface): Unit = {
     println("\u001b[H\u001b[2J")
     println("  a b c d e f g h")
     println("  ---------------")
@@ -22,7 +25,7 @@ class TUI(controller: Controller) extends View(controller) {
     for (y <- 8 to 1 by -1) {
       print(y + "|")
       for (x <- 1 to 8 by 1) {
-        field.pieces.get(Position(x, y)) match {
+        field.getPiece(PositionBaseImpl(x, y)) match {
           case Some(piece) => print(piece.getSymbol() + " ")
           case None        => print("  ")
         }
@@ -35,7 +38,7 @@ class TUI(controller: Controller) extends View(controller) {
   }
 
   override def startView(): Unit = {
-    controller.addView(this);
+    controller.addViewAndUpdate(this);
 
     waitForInput();
   }
@@ -54,8 +57,10 @@ class TUI(controller: Controller) extends View(controller) {
     else if (input == "redo")
       controller.redoCommand();
     else if (input.length() == 4) {
-      val from = Position.fromChar(input.charAt(0), input.charAt(1).asDigit)
-      val to = Position.fromChar(input.charAt(2), input.charAt(3).asDigit)
+      val from =
+        PositionBaseImpl.fromChar(input.charAt(0), input.charAt(1).asDigit)
+      val to =
+        PositionBaseImpl.fromChar(input.charAt(2), input.charAt(3).asDigit)
       controller.runMoveCommand(from, to)
     }
 

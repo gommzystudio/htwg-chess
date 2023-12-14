@@ -1,19 +1,25 @@
-package model
+package model.gamestate
 
 import model.commands.Command
 import model.commands.MoveCommand
 import scala.util.Success
 import scala.util.Failure
 import scala.util.Try
+import model.field.FieldInterface
+import model.gamestate.GameStateInterface
 
-class GameState(val field: Field, undoStack:List[Command] = List(), redoStack: List[Command] = List()) {
-  def executeCommand(command: Command): GameState = {
-    val newField: Try[Field] = command.execute()
+class GameStateBaseImpl(
+    val field: FieldInterface,
+    undoStack: List[Command] = List(),
+    redoStack: List[Command] = List()
+) extends GameStateInterface {
+  def executeCommand(command: Command): GameStateBaseImpl = {
+    val newField: Try[FieldInterface] = command.execute()
     val newUndoStack = command :: undoStack
-    
+
     newField match {
       case Success(field) => {
-        return new GameState(field, newUndoStack, List())
+        return new GameStateBaseImpl(field, newUndoStack, List())
       }
       case Failure(exception) => {
         return this
@@ -21,7 +27,7 @@ class GameState(val field: Field, undoStack:List[Command] = List(), redoStack: L
     }
   }
 
-  def undoCommand(): GameState = {
+  def undoCommand(): GameStateBaseImpl = {
     if (undoStack.isEmpty) {
       return this
     }
@@ -29,10 +35,10 @@ class GameState(val field: Field, undoStack:List[Command] = List(), redoStack: L
     val newField = command.undo()
     val newUndoStack = undoStack.tail
     val newRedoStack = command :: redoStack
-    
+
     newField match {
       case Success(field) => {
-        return new GameState(field, newUndoStack, newRedoStack)
+        return new GameStateBaseImpl(field, newUndoStack, newRedoStack)
       }
       case Failure(exception) => {
         return this
@@ -40,7 +46,7 @@ class GameState(val field: Field, undoStack:List[Command] = List(), redoStack: L
     }
   }
 
-  def redoCommand(): GameState = {
+  def redoCommand(): GameStateBaseImpl = {
     if (redoStack.isEmpty) {
       return this
     }
@@ -48,10 +54,10 @@ class GameState(val field: Field, undoStack:List[Command] = List(), redoStack: L
     val newField = command.execute()
     val newUndoStack = command :: undoStack
     val newRedoStack = redoStack.tail
-    
+
     newField match {
       case Success(field) => {
-        return new GameState(field, newUndoStack, newRedoStack)
+        return new GameStateBaseImpl(field, newUndoStack, newRedoStack)
       }
       case Failure(exception) => {
         return this
@@ -59,7 +65,7 @@ class GameState(val field: Field, undoStack:List[Command] = List(), redoStack: L
     }
   }
 
-  def getField(): Field = {
+  def getField(): FieldInterface = {
     return field
   }
 }

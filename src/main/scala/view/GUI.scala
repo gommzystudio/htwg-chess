@@ -1,8 +1,11 @@
 package view
 
-import controller.Controller
-import model.{GameState, Position}
-import util.View
+import controller.ControllerInterface
+import model.position.PositionBaseImpl
+import model.position.PositionInterface
+import model.gamestate.GameStateInterface
+import model.gamestate.GameStateBaseImpl
+import util.view.ViewInterface
 import scalafx.application.JFXApp3
 import scalafx.scene.Scene
 import scalafx.scene.layout.BorderPane
@@ -11,8 +14,11 @@ import javafx.concurrent.Worker.State
 import netscape.javascript.JSObject
 import scalafx.application.Platform
 import view.html.Renderer
+import util.updater.UpdaterInterface
 
-class GUI(controller: Controller) extends JFXApp3 with View(controller) {
+class GUI(controller: ControllerInterface)
+    extends JFXApp3
+    with ViewInterface(controller.asInstanceOf[UpdaterInterface]) {
   private var webEngine: WebEngine = _
 
   override def start(): Unit = {
@@ -34,29 +40,36 @@ class GUI(controller: Controller) extends JFXApp3 with View(controller) {
               val from = args(1)
               val to = args(2)
               controller.runMoveCommand(
-                Position(from.charAt(0).asDigit, from.charAt(1).asDigit),
-                Position(to.charAt(0).asDigit, to.charAt(1).asDigit)
+                PositionBaseImpl(
+                  from.charAt(0).asDigit,
+                  from.charAt(1).asDigit
+                ),
+                PositionBaseImpl(to.charAt(0).asDigit, to.charAt(1).asDigit)
               )
             case "loadMoves" =>
               val pos = args(1)
-              val moves = controller.gameState
+              val moves = controller
+                .getGameSate()
                 .getField()
                 .getPiece(
-                  Position(pos.charAt(0).asDigit, pos.charAt(1).asDigit)
+                  PositionBaseImpl(pos.charAt(0).asDigit, pos.charAt(1).asDigit)
                 )
                 .get
                 .availableMoves(
-                  Position(pos.charAt(0).asDigit, pos.charAt(1).asDigit),
-                  controller.gameState.getField()
+                  PositionBaseImpl(
+                    pos.charAt(0).asDigit,
+                    pos.charAt(1).asDigit
+                  ),
+                  controller.getGameSate().getField()
                 )
-              updateGuiWithGameState(controller.gameState, moves)
+              updateGuiWithGameState(controller.getGameSate(), moves)
             case "undo" => controller.undoCommand()
             case "redo" => controller.redoCommand()
             case _      => println("Unknown command")
           }
         }
 
-        controller.addView(this)
+        controller.addViewAndUpdate(this)
       }
     })
 
@@ -81,7 +94,7 @@ class GUI(controller: Controller) extends JFXApp3 with View(controller) {
   }
 
   override def update(
-      gameState: GameState
+      gameState: GameStateInterface
   ): Unit = {
     Platform.runLater(() => {
       updateGuiWithGameState(gameState, List())
@@ -89,8 +102,8 @@ class GUI(controller: Controller) extends JFXApp3 with View(controller) {
   }
 
   private def updateGuiWithGameState(
-      gameState: GameState,
-      availableMoves: List[Position] = List()
+      gameState: GameStateInterface,
+      availableMoves: List[PositionInterface] = List()
   ): Unit = {
     try {
       val renderer = new Renderer()

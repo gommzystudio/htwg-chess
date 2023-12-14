@@ -1,7 +1,8 @@
 package view.html
 
-import model.GameState
-import model.Position
+import model.gamestate.GameStateInterface
+import model.position.PositionInterface
+import model.position.PositionBaseImpl
 
 final case class Renderer() {
   def defaultStructure(): String = {
@@ -44,8 +45,8 @@ final case class Renderer() {
   }
 
   def render(
-      gameState: GameState,
-      availableMoves: List[Position] = List()
+      gameState: GameStateInterface,
+      availableMoves: List[PositionInterface] = List()
   ): String = {
     return """
 <div class="bg-gray-100 w-screen h-screen">
@@ -524,8 +525,8 @@ final case class Renderer() {
       </div>
 
       <div class="flex p-5 gap-5 w-full justify-center rounded-3xl bg-gray-50 text-center font-bold text-gray-400 shadow-lg">
-        <button onclick="undo()" class="w-1/2 bg-gray-200 rounded-xl shadow-lg p-3">Rückgängig</button>
-        <button onclick="redo()" class="w-1/2 bg-gray-200 rounded-xl shadow-lg p-3">Wiederherstellen</button>
+        <button onclick="undo()" class="w-1/2 bg-gray-200 rounded-xl shadow-lg p-3 font-bold">Rückgängig</button>
+        <button onclick="redo()" class="w-1/2 bg-gray-200 rounded-xl shadow-lg p-3 font-bold">Wiederherstellen</button>
       </div>    
     </div>
   </div>
@@ -550,12 +551,12 @@ final case class Renderer() {
   }
 
   def renderPiece(
-      gameState: GameState,
-      availableMoves: List[Position],
+      gameState: GameStateInterface,
+      availableMoves: List[PositionInterface],
       x: Int,
       y: Int
   ): String = {
-    var piece = gameState.getField().pieces.get(Position(x, y))
+    val piece = gameState.getField().getPiece(PositionBaseImpl(x, y))
     piece match {
       case Some(piece) =>
         return """<div class="cursor-pointer" onclick="startDrag('""" + x + y + """')">""" + piece
@@ -570,11 +571,11 @@ final case class Renderer() {
   }
 
   def renderPossibleMoves(
-      availableMoves: List[Position],
+      availableMoves: List[PositionInterface],
       x: Int,
       y: Int
   ): String = {
-    if (availableMoves.contains(Position(x, y))) {
+    if (availableMoves.contains(PositionBaseImpl(x, y))) {
       return """
     <div class="absolute z-0 h-5/6 w-5/6 rounded-full bg-blue-500 opacity-50 cursor-pointer" onclick="selectField('""" + x + y + """')"></div>
     """

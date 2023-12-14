@@ -1,9 +1,9 @@
 package model.commands
 
-import model.Field
+import model.field.FieldInterface
 import scala.util.Try
 
-abstract class Command() {
-  def execute(): Try[Field]
-  def undo(): Try[Field]
+trait Command {
+  def execute(): Try[FieldInterface]
+  def undo(): Try[FieldInterface]
 }

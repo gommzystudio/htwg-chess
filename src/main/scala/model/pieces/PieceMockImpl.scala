@@ -4,9 +4,9 @@ import model.position.PositionInterface
 import model.field.FieldInterface
 import model.pieces.Piece
 
-class Queen(c: Color) extends Piece(c) {
-  override def getSymbol() = {
-    return if (c == Color.White) "♕" else "♛"
+final case class PieceMockImpl(c: Color) extends Piece(c) {
+  override def getSymbol(): String = {
+    return "♟"
   }
 
   override def whiteAvailableMoves(
