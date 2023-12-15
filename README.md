@@ -9,7 +9,7 @@ This project is a chess game built in Scala 3 with sbt for Software Engineering 
 ## Features
 
 - [x] TUI
-- [ ] GUI
+- [x] GUI
 - [ ] Move Validation
   - [ ] Pawn
     - [x] Single Move
@@ -17,17 +17,17 @@ This project is a chess game built in Scala 3 with sbt for Software Engineering 
     - [x] Capture
     - [ ] Promotion
     - [ ] En Passant
-  - [ ] Rook
-    - [ ] Normal Move
-    - [ ] Castling
-  - [ ] Knight
-    - [ ] Normal Move
-  - [ ] Bishop
-    - [ ] Normal Move
-  - [ ] Queen
-    - [ ] Normal Move
-  - [ ] King
-    - [ ] Normal Move
+  - [x] Rook
+    - [x] Normal Move
+    - [x] Castling
+  - [x] Knight
+    - [x] Normal Move
+  - [x] Bishop
+    - [x] Normal Move
+  - [x] Queen
+    - [x] Normal Move
+  - [x] King
+    - [x] Normal Move
     - [ ] Castling
 - [ ] Game State
   - [ ] Check

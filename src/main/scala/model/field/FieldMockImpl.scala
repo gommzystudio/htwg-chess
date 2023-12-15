@@ -30,4 +30,8 @@ case class FieldMockImpl() extends FieldInterface {
   def getPieces(): List[Piece] = {
     return List()
   }
+
+  def isCheck(color: Color): Boolean = {
+    return false
+  }
 }

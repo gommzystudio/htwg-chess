@@ -48,13 +48,16 @@ class GUI(controller: ControllerInterface)
               )
             case "loadMoves" =>
               val pos = args(1)
-              val moves = controller
+              val fromPos = PositionBaseImpl(
+                pos.charAt(0).asDigit,
+                pos.charAt(1).asDigit
+              )
+              val piece = controller
                 .getGameSate()
                 .getField()
-                .getPiece(
-                  PositionBaseImpl(pos.charAt(0).asDigit, pos.charAt(1).asDigit)
-                )
+                .getPiece(fromPos)
                 .get
+              val moves = piece
                 .availableMoves(
                   PositionBaseImpl(
                     pos.charAt(0).asDigit,
@@ -62,7 +65,26 @@ class GUI(controller: ControllerInterface)
                   ),
                   controller.getGameSate().getField()
                 )
-              updateGuiWithGameState(controller.getGameSate(), moves)
+              val field = controller.getGameSate().getField()
+
+              // filter out moves that would result in a check
+              val filteredMoves = moves.filter(move => {
+                val newField = field
+                  .removePiece(fromPos)
+                  .setPiece(
+                    PositionBaseImpl(
+                      move.getX(),
+                      move.getY()
+                    ),
+                    piece
+                  )
+
+                !newField.isCheck(
+                  piece.color
+                )
+              })
+
+              updateGuiWithGameState(controller.getGameSate(), filteredMoves)
             case "undo" => controller.undoCommand()
             case "redo" => controller.redoCommand()
             case _      => println("Unknown command")

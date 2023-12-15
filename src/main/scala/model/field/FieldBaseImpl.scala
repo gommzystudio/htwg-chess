@@ -6,6 +6,8 @@ import model.pieces.*
 import model.position.PositionBaseImpl
 import model.field.FieldInterface
 import model.position.PositionInterface
+import model.pieces.Color
+import model.pieces.King
 
 case class FieldBaseImpl(pieces: Map[PositionInterface, Piece])
     extends FieldInterface {
@@ -35,5 +37,25 @@ case class FieldBaseImpl(pieces: Map[PositionInterface, Piece])
 
   def getPieces(): List[Piece] = {
     return pieces.values.toList
+  }
+
+  def isCheck(color: Color): Boolean = {
+    var kingPosition: PositionInterface = PositionBaseImpl(0, 0)
+    for ((position, piece) <- pieces) {
+      if (piece.isInstanceOf[King] && piece.color == color) {
+        kingPosition = position
+      }
+    }
+
+    for ((position, piece) <- pieces) {
+      if (piece.color != color) {
+        val validMoves = piece.availableMoves(position, this)
+        if (validMoves.contains(kingPosition)) {
+          return true
+        }
+      }
+    }
+
+    return false
   }
 }

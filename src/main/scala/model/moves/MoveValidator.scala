@@ -3,6 +3,9 @@ package model.moves
 import model.pieces.Piece
 import model.position.PositionInterface
 import model.field.FieldInterface
+import model.commands.MoveCommand
+import scala.util.Success
+import scala.util.Failure
 
 trait MoveValidator {
   var nextMoveValidator: MoveValidator = _

@@ -3,6 +3,7 @@ package model.pieces
 import model.field.FieldInterface
 import model.position.PositionInterface
 import model.pieces.Piece
+import model.moves.DiagonalMoveValidator
 
 class Bishop(c: Color) extends Piece(c) {
   override def getSymbol() = {
@@ -13,6 +14,13 @@ class Bishop(c: Color) extends Piece(c) {
       position: PositionInterface,
       field: FieldInterface
   ): List[PositionInterface] = {
-    return List()
+    val diagonalMoveValidator = new DiagonalMoveValidator()
+
+    return diagonalMoveValidator.getValidMoves(
+      this,
+      position,
+      field,
+      List()
+    )
   }
 }

@@ -9,6 +9,7 @@ import model.commands.MoveCommand
 import scala.util.{Try, Success, Failure}
 import util.view.ViewInterface
 import util.updater.UpdaterBaseImpl
+import model.pieces.{Color, Piece}
 
 class ControllerBaseImpl() extends ControllerInterface with UpdaterBaseImpl {
   var gameState: GameStateBaseImpl = new GameStateBaseImpl(
@@ -38,9 +39,19 @@ class ControllerBaseImpl() extends ControllerInterface with UpdaterBaseImpl {
           println("Ungültiger Zug")
           return
         }
-        gameState = gameState.executeCommand(
+        val playerColor = piece.color
+
+        val newGameState = gameState.executeCommand(
           new MoveCommand(from, to, gameState.getField())
         )
+
+        if (newGameState.getField().isCheck(playerColor)) {
+          println("Das sorgt für ein Schach")
+          return
+        }
+
+        gameState = newGameState
+
         update(gameState)
       case Failure(_) =>
         println("Kein Stück zum Bewegen")
