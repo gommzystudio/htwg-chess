@@ -17,15 +17,15 @@ import model.pieces.Piece
 import scala.collection.immutable.Map
 import util.color.Color
 import util.fileio.FileIO
-import util.fileio.compatible.CompatibleFileIO
+import util.fileio.xml.XMLFileIO
 
-final case class SchachModule() extends AbstractModule {
+final case class SchachXmlModule() extends AbstractModule {
   override def configure() = {
     bind(classOf[GameStateInterface]).toInstance(
       new GameStateBaseImpl(FieldFactory.createInitialField())
     )
     bind(classOf[FileIO]).toInstance(
-      CompatibleFileIO("saves/savegame.json")
+      XMLFileIO("saves/savegame.xml")
     )
     bind(classOf[ControllerInterface]).to(classOf[ControllerBaseImpl])
   }

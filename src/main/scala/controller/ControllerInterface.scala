@@ -12,4 +12,5 @@ trait ControllerInterface {
   def runMoveCommand(from: PositionInterface, to: PositionInterface): Unit
   def getGameSate(): GameStateInterface
   def addViewAndUpdate(view: ViewInterface): Unit
+  def load(): Unit
 }

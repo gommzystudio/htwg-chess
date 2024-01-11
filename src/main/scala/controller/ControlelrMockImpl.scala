@@ -11,4 +11,5 @@ class ControllerMockImpl() extends ControllerInterface {
   def addViewAndUpdate(view: ViewInterface): Unit = {}
   def runMoveCommand(from: PositionInterface, to: PositionInterface): Unit = {}
   def getGameSate(): GameStateInterface = new GameStateMockImpl()
+  def load(): Unit = {}
 }

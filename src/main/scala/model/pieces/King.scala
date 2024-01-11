@@ -2,7 +2,6 @@ package model.pieces
 
 import model.field.FieldInterface
 import model.position.PositionInterface
-import model.pieces.Piece
 import model.moves.StraightMoveValidator
 import model.moves.DiagonalMoveValidator
 import util.color.Color

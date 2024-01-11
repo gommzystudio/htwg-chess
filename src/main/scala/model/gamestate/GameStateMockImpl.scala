@@ -12,4 +12,6 @@ case class GameStateMockImpl() extends GameStateInterface {
   def undoCommand(): GameStateInterface = this
   def redoCommand(): GameStateInterface = this
   def getField(): FieldInterface = FieldMockImpl()
+  def getUndoStack(): List[Command] = List()
+  def getRedoStack(): List[Command] = List()
 }

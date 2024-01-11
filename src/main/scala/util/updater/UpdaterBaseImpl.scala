@@ -5,7 +5,7 @@ import model.gamestate.GameStateInterface
 import util.updater.UpdaterInterface
 import com.google.inject.Inject
 
-trait UpdaterBaseImpl @Inject extends UpdaterInterface {
+trait UpdaterBaseImpl extends UpdaterInterface {
   var views = List[ViewInterface]()
 
   def addView(view: ViewInterface) = {

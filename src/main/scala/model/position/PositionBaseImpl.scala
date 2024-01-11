@@ -3,7 +3,7 @@ package model.position
 import model.position.PositionInterface
 import com.google.inject.Inject
 
-case class PositionBaseImpl @Inject() (x: Int, y: Int)
+case class PositionBaseImpl (x: Int, y: Int)
     extends PositionInterface(x, y) {
   def getCharX(): Char = {
     return (x + 'a' - 1).toChar

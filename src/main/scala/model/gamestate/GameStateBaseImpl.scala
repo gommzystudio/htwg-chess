@@ -10,8 +10,10 @@ import model.gamestate.GameStateInterface
 import util.color.*
 import com.google.inject.Inject
 import model.field.FieldFactory
+import scala.xml.Elem
+import play.api.libs.json.Json
 
-class GameStateBaseImpl @Inject() (
+class GameStateBaseImpl(
     val field: FieldInterface = FieldFactory.createInitialField(),
     undoStack: List[Command] = List(),
     redoStack: List[Command] = List()
@@ -32,6 +34,14 @@ class GameStateBaseImpl @Inject() (
         return this
       }
     }
+  }
+
+  def getUndoStack(): List[Command] = {
+    return undoStack
+  }
+
+  def getRedoStack(): List[Command] = {
+    return redoStack
   }
 
   def undoCommand(): GameStateBaseImpl = {

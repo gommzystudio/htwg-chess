@@ -17,13 +17,17 @@ import model.pieces.Piece
 import scala.collection.immutable.Map
 import util.color.Color
 import java.util.ResourceBundle.Control
+import util.fileio.FileIO
+import util.fileio.json.JsonFileIO
 
 final case class SchachMattModule() extends AbstractModule {
   override def configure() = {
-    bind(classOf[ControllerInterface]).toInstance(
-      new ControllerBaseImpl(
-        new GameStateBaseImpl(FieldFactory.createEndGameExample())
-      )
+    bind(classOf[GameStateInterface]).toInstance(
+      new GameStateBaseImpl(FieldFactory.createEndGameExample())
     )
+    bind(classOf[FileIO]).toInstance(
+      JsonFileIO("saves/schachmatt.json")
+    )
+    bind(classOf[ControllerInterface]).to(classOf[ControllerBaseImpl])
   }
 }

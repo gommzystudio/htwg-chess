@@ -2,15 +2,15 @@ package model.field
 
 import scala.collection.immutable.Map
 
-import model.pieces.*
 import model.position.PositionBaseImpl
 import model.field.FieldInterface
 import model.position.PositionInterface
 import model.pieces.King
 import util.color.*
 import com.google.inject.Inject
+import model.pieces.Piece
 
-case class FieldBaseImpl @Inject() (
+case class FieldBaseImpl(
     pieces: Map[PositionInterface, Piece],
     currentPlayer: Color = Color.White
 ) extends FieldInterface {
@@ -38,8 +38,8 @@ case class FieldBaseImpl @Inject() (
     return FieldBaseImpl(newPieces)
   }
 
-  def getPieces(): List[Piece] = {
-    return pieces.values.toList
+  def getPieces(): Map[PositionInterface, Piece] = {
+    return pieces
   }
 
   def isCheck(color: Color): Boolean = {

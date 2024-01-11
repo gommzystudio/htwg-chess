@@ -11,10 +11,20 @@ import util.updater.UpdaterBaseImpl
 import util.color.Color
 import com.google.inject.Inject
 import model.gamestate.GameStateInterface
+import util.fileio.FileIO
 
-class ControllerBaseImpl @Inject() (var gameState: GameStateInterface)
-    extends ControllerInterface
+class ControllerBaseImpl @Inject() (
+    var gameState: GameStateInterface,
+    val fileIO: FileIO
+) extends ControllerInterface
     with UpdaterBaseImpl {
+  def load() = {
+    val newGameState = fileIO.read()
+    if (newGameState != null) {
+      gameState = newGameState
+      update(newGameState)
+    }
+  }
 
   def addViewAndUpdate(view: ViewInterface) = {
     addView(view)
@@ -53,6 +63,7 @@ class ControllerBaseImpl @Inject() (var gameState: GameStateInterface)
         gameState = newGameState
 
         update(gameState)
+        fileIO.write(gameState)
       case Failure(_) =>
         println("Kein Stück zum Bewegen")
     }

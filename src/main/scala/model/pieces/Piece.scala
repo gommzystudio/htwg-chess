@@ -6,7 +6,7 @@ import java.io.StringReader
 import model.gamestate.GameStateInterface
 import util.color.Color
 
-abstract trait Piece(c: Color) {
+trait Piece(c: Color) {
   val color: Color = c;
 
   def availableMoves(
