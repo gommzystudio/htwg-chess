@@ -4,6 +4,7 @@ import model.field.FieldInterface
 import model.position.PositionInterface
 import model.pieces.Piece
 import model.moves.DiagonalMoveValidator
+import util.color.Color
 
 class Bishop(c: Color) extends Piece(c) {
   override def getSymbol() = {

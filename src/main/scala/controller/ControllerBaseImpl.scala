@@ -3,18 +3,18 @@ package controller
 import util.updater.UpdaterBaseImpl
 import model.position.PositionInterface
 import model.field.FieldFactory
-import model.gamestate.GameStateBaseImpl
 import model.pieces.Piece
 import model.commands.MoveCommand
 import scala.util.{Try, Success, Failure}
 import util.view.ViewInterface
 import util.updater.UpdaterBaseImpl
-import model.pieces.{Color, Piece}
+import util.color.Color
+import com.google.inject.Inject
+import model.gamestate.GameStateInterface
 
-class ControllerBaseImpl() extends ControllerInterface with UpdaterBaseImpl {
-  var gameState: GameStateBaseImpl = new GameStateBaseImpl(
-    FieldFactory.createInitialField()
-  );
+class ControllerBaseImpl @Inject() (var gameState: GameStateInterface)
+    extends ControllerInterface
+    with UpdaterBaseImpl {
 
   def addViewAndUpdate(view: ViewInterface) = {
     addView(view)
@@ -58,7 +58,7 @@ class ControllerBaseImpl() extends ControllerInterface with UpdaterBaseImpl {
     }
   }
 
-  def getGameSate(): GameStateBaseImpl = {
+  def getGameSate(): GameStateInterface = {
     gameState
   }
 }

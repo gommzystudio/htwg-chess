@@ -5,6 +5,7 @@ import scala.collection.immutable.Map
 import model.pieces.*
 import model.position.PositionInterface
 import model.field.FieldInterface
+import util.color.Color
 
 case class FieldMockImpl() extends FieldInterface {
   def getPiece(position: PositionInterface): Option[Piece] = {
@@ -33,5 +34,13 @@ case class FieldMockImpl() extends FieldInterface {
 
   def isCheck(color: Color): Boolean = {
     return false
+  }
+
+  def getCurrentPlayer(): Color = {
+    return Color.White
+  }
+
+  def flipPlayer(): FieldInterface = {
+    return this
   }
 }

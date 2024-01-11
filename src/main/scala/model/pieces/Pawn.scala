@@ -12,6 +12,7 @@ import scala.compiletime.ops.boolean
 import model.field.FieldInterface
 import model.position.PositionInterface
 import model.pieces.Piece
+import util.color.Color
 
 class Pawn(c: Color) extends Piece(c) {
   override def getSymbol() = {

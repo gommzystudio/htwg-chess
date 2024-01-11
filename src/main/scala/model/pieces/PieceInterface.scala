@@ -4,9 +4,7 @@ import model.position.PositionInterface
 import model.field.FieldInterface
 import java.io.StringReader
 import model.gamestate.GameStateInterface
-
-enum Color:
-  case Black, White;
+import util.color.Color
 
 abstract trait Piece(c: Color) {
   val color: Color = c;
@@ -15,6 +13,10 @@ abstract trait Piece(c: Color) {
       position: PositionInterface,
       field: FieldInterface
   ): List[PositionInterface] = {
+    if (field.getCurrentPlayer() != c) {
+      return List()
+    }
+
     if (c == Color.White) {
       return whiteAvailableMoves(position, field)
     } else {

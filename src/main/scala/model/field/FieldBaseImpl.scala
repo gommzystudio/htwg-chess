@@ -6,11 +6,14 @@ import model.pieces.*
 import model.position.PositionBaseImpl
 import model.field.FieldInterface
 import model.position.PositionInterface
-import model.pieces.Color
 import model.pieces.King
+import util.color.*
+import com.google.inject.Inject
 
-case class FieldBaseImpl(pieces: Map[PositionInterface, Piece])
-    extends FieldInterface {
+case class FieldBaseImpl @Inject() (
+    pieces: Map[PositionInterface, Piece],
+    currentPlayer: Color = Color.White
+) extends FieldInterface {
   def getPiece(position: PositionInterface): Option[Piece] = {
     return pieces.get(position)
   }
@@ -20,11 +23,11 @@ case class FieldBaseImpl(pieces: Map[PositionInterface, Piece])
   }
 
   def setPiece(position: PositionInterface, piece: Piece): FieldInterface = {
-    return FieldBaseImpl(pieces + (position -> piece))
+    return FieldBaseImpl(pieces + (position -> piece), currentPlayer)
   }
 
   def removePiece(position: PositionInterface): FieldInterface = {
-    return FieldBaseImpl(pieces - position)
+    return FieldBaseImpl(pieces - position, currentPlayer)
   }
 
   def flipBoard(): FieldBaseImpl = {
@@ -57,5 +60,13 @@ case class FieldBaseImpl(pieces: Map[PositionInterface, Piece])
     }
 
     return false
+  }
+
+  def getCurrentPlayer(): Color = {
+    return currentPlayer
+  }
+
+  def flipPlayer(): FieldBaseImpl = {
+    return FieldBaseImpl(pieces, flipColor(currentPlayer))
   }
 }

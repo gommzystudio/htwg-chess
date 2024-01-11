@@ -2,7 +2,7 @@ package model.field
 
 import model.pieces.Piece
 import model.position.PositionInterface
-import model.pieces.{Color}
+import util.color.Color
 
 trait FieldInterface {
   def getPieces(): List[Piece]
@@ -12,4 +12,6 @@ trait FieldInterface {
   def removePiece(position: PositionInterface): FieldInterface
   def flipBoard(): FieldInterface
   def isCheck(color: Color): Boolean
+  def getCurrentPlayer(): Color
+  def flipPlayer(): FieldInterface
 }

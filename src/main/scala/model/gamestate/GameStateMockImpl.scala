@@ -5,6 +5,7 @@ import scala.util.Try
 import model.field.FieldInterface
 import model.gamestate.GameStateInterface
 import model.field.FieldMockImpl
+import util.color.*
 
 case class GameStateMockImpl() extends GameStateInterface {
   def executeCommand(command: Command): GameStateInterface = this

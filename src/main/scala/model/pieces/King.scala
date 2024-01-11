@@ -5,6 +5,7 @@ import model.position.PositionInterface
 import model.pieces.Piece
 import model.moves.StraightMoveValidator
 import model.moves.DiagonalMoveValidator
+import util.color.Color
 
 class King(c: Color) extends Piece(c) {
   override def getSymbol() = {

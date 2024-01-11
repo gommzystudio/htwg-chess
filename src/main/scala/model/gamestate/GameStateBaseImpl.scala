@@ -7,9 +7,12 @@ import scala.util.Failure
 import scala.util.Try
 import model.field.FieldInterface
 import model.gamestate.GameStateInterface
+import util.color.*
+import com.google.inject.Inject
+import model.field.FieldFactory
 
-class GameStateBaseImpl(
-    val field: FieldInterface,
+class GameStateBaseImpl @Inject() (
+    val field: FieldInterface = FieldFactory.createInitialField(),
     undoStack: List[Command] = List(),
     redoStack: List[Command] = List()
 ) extends GameStateInterface {
@@ -19,7 +22,11 @@ class GameStateBaseImpl(
 
     newField match {
       case Success(field) => {
-        return new GameStateBaseImpl(field, newUndoStack, List())
+        return new GameStateBaseImpl(
+          field,
+          newUndoStack,
+          List()
+        )
       }
       case Failure(exception) => {
         return this
@@ -38,7 +45,11 @@ class GameStateBaseImpl(
 
     newField match {
       case Success(field) => {
-        return new GameStateBaseImpl(field, newUndoStack, newRedoStack)
+        return new GameStateBaseImpl(
+          field,
+          newUndoStack,
+          newRedoStack
+        )
       }
       case Failure(exception) => {
         return this
@@ -57,7 +68,11 @@ class GameStateBaseImpl(
 
     newField match {
       case Success(field) => {
-        return new GameStateBaseImpl(field, newUndoStack, newRedoStack)
+        return new GameStateBaseImpl(
+          field,
+          newUndoStack,
+          newRedoStack
+        )
       }
       case Failure(exception) => {
         return this

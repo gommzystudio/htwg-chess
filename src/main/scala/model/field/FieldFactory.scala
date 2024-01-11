@@ -6,8 +6,19 @@ import model.pieces.*
 import model.field.FieldBaseImpl
 
 import model.position.PositionBaseImpl
+import util.color.Color
 
 object FieldFactory {
+  def createEndGameExample(): FieldBaseImpl = {
+    return FieldBaseImpl(
+      Map(
+        PositionBaseImpl(1, 1) -> King(Color.White),
+        PositionBaseImpl(1, 8) -> King(Color.Black),
+        PositionBaseImpl(2, 2) -> Rook(Color.Black)
+      )
+    );
+  }
+
   def createInitialField(): FieldBaseImpl = {
     return FieldBaseImpl(
       Map(

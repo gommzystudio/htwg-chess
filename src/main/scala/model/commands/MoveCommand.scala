@@ -17,7 +17,7 @@ final case class MoveCommand(
   override def execute(): Try[FieldInterface] = {
     movedPiece
       .map { piece =>
-        val newField = field.removePiece(from).setPiece(to, piece)
+        val newField = field.removePiece(from).setPiece(to, piece).flipPlayer()
         Success(newField)
       }
       .getOrElse(Failure(new Exception("Kein Stück zum Bewegen")))
@@ -26,7 +26,7 @@ final case class MoveCommand(
   override def undo(): Try[FieldInterface] = {
     movedPiece
       .map { piece =>
-        val newField = field.setPiece(from, piece)
+        val newField = field.setPiece(from, piece).flipPlayer()
         Success(newField)
       }
       .getOrElse(Failure(new Exception("Kein Stück zum Bewegen")))
