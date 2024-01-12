@@ -13,7 +13,7 @@ def start = {
   val jsonInjector: Injector = Guice.createInjector(new SchachJsonModule)
 
   val controller =
-    mattInjector.getInstance(classOf[ControllerInterface])
+    injector.getInstance(classOf[ControllerInterface])
 
   val tui: TUI = TUI(controller);
   val gui: GUI = GUI(controller);
