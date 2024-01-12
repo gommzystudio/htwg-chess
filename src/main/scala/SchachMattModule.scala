@@ -23,7 +23,7 @@ import util.fileio.json.JsonFileIO
 final case class SchachMattModule() extends AbstractModule {
   override def configure() = {
     bind(classOf[GameStateInterface]).toInstance(
-      new GameStateBaseImpl(FieldFactory.createEndGameExample())
+      new GameStateBaseImpl(FieldFactory.createEndGameExample().flipPlayer())
     )
     bind(classOf[FileIO]).toInstance(
       JsonFileIO("saves/schachmatt.json")
