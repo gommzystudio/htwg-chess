@@ -13,7 +13,7 @@ import com.google.inject.Inject
 import model.gamestate.GameStateInterface
 import util.fileio.FileIO
 
-class ControllerBaseImpl @Inject() (
+class ControllerBaseImpl(using
     var gameState: GameStateInterface,
     val fileIO: FileIO
 ) extends ControllerInterface

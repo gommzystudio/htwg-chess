@@ -2,20 +2,13 @@ import controller.ControllerBaseImpl;
 import controller.ControllerInterface;
 import view.TUI;
 import view.GUI;
-import com.google.inject.Injector
-import com.google.inject.Guice
+import Matt.{given};
+import model.gamestate.GameStateInterface
+import util.fileio.FileIO
 
 @main
 def start = {
-  val injector: Injector = Guice.createInjector(new SchachModule)
-  val mattInjector: Injector = Guice.createInjector(new SchachMattModule)
-  val xmlIjector: Injector = Guice.createInjector(new SchachXmlModule)
-  val jsonInjector: Injector = Guice.createInjector(new SchachJsonModule)
-
-  val controller =
-    mattInjector.getInstance(classOf[ControllerInterface])
-
-  controller.load();
+  val controller = ControllerBaseImpl();
 
   val tui: TUI = TUI(controller);
   val gui: GUI = GUI(controller);

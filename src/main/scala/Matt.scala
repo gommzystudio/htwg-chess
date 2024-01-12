@@ -19,14 +19,9 @@ import util.color.Color
 import util.fileio.FileIO
 import util.fileio.compatible.CompatibleFileIO
 
-final case class SchachModule() extends AbstractModule {
-  override def configure() = {
-    bind(classOf[GameStateInterface]).toInstance(
-      new GameStateBaseImpl(FieldFactory.createInitialField())
-    )
-    bind(classOf[FileIO]).toInstance(
-      CompatibleFileIO("saves/savegame.json")
-    )
-    bind(classOf[ControllerInterface]).to(classOf[ControllerBaseImpl])
-  }
+object Matt {
+  given GameStateInterface = GameStateBaseImpl(
+    FieldFactory.createEndGameExample()
+  )
+  given FileIO = CompatibleFileIO("saves/savegame.json")
 }

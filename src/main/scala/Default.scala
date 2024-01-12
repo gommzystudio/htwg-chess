@@ -16,18 +16,12 @@ import com.google.inject.TypeLiteral
 import model.pieces.Piece
 import scala.collection.immutable.Map
 import util.color.Color
-import java.util.ResourceBundle.Control
 import util.fileio.FileIO
-import util.fileio.json.JsonFileIO
+import util.fileio.compatible.CompatibleFileIO
 
-final case class SchachMattModule() extends AbstractModule {
-  override def configure() = {
-    bind(classOf[GameStateInterface]).toInstance(
-      new GameStateBaseImpl(FieldFactory.createEndGameExample().flipPlayer())
-    )
-    bind(classOf[FileIO]).toInstance(
-      JsonFileIO("saves/schachmatt.json")
-    )
-    bind(classOf[ControllerInterface]).to(classOf[ControllerBaseImpl])
-  }
+object Default {
+  given GameStateInterface = GameStateBaseImpl(
+    FieldFactory.createInitialField()
+  )
+  given FileIO = CompatibleFileIO("saves/savegame.json")
 }
