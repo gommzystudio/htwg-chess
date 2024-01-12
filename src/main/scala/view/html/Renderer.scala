@@ -36,6 +36,16 @@ final case class Renderer() {
            |  function redo() {
            |    sendData('redo', []);
            |  }
+           |
+           |  function save() {
+           |    const path = document.getElementById('path').value;
+           |    sendData('save', [path]);
+           |  }
+           |
+           |  function load() {
+           |    const path = document.getElementById('path').value;
+           |    sendData('load', [path]);
+           |  }
            |</script>
            |</head>
            |<body> 
@@ -524,10 +534,15 @@ final case class Renderer() {
         </div>
       </div>
 
-      <div class="flex p-5 gap-5 w-full justify-center rounded-3xl bg-gray-50 text-center font-bold text-gray-400 shadow-lg">
-        <button onclick="undo()" class="w-1/2 bg-gray-200 rounded-xl shadow-lg p-3 font-bold">Rückgängig</button>
-        <button onclick="redo()" class="w-1/2 bg-gray-200 rounded-xl shadow-lg p-3 font-bold">Wiederherstellen</button>
-      </div>    
+      <div class="flex w-full justify-center gap-5 rounded-3xl bg-gray-50 p-5 text-center font-bold text-gray-400 shadow-lg">
+        <button onclick="undo()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Rückgängig</button>
+        <button onclick="redo()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Wiederherstellen</button>
+
+        <input type="text" id="path" placeholder="Datei" class="w-40 rounded-xl bg-gray-200 px-3" />
+        <button onclick="save()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Speichern</button>
+        <button onclick="load()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Laden</button>
+      </div>
+    
     </div>
   </div>
 </div>

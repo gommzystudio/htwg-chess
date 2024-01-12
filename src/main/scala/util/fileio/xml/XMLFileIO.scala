@@ -10,8 +10,8 @@ import model.pieces.PieceFactory
 import model.gamestate.GameStateBaseImpl
 import model.field.FieldBaseImpl
 
-final case class XMLFileIO @Inject (path: String) extends FileIO(path) {
-  override def fromData(xmlString: String): GameStateInterface = {
+final class XMLFileIO extends FileIO() {
+  override def fromData(xmlString: String, path: String): GameStateInterface = {
     val xml: Elem = XML.loadString(xmlString)
 
     val currentPlayer = (xml \ "currentPlayer").text
@@ -41,7 +41,7 @@ final case class XMLFileIO @Inject (path: String) extends FileIO(path) {
     )
   }
 
-  override def toData(gameState: GameStateInterface): String = {
+  override def toData(gameState: GameStateInterface, path: String): String = {
     val piecesXml =
       gameState.getField().getPieces().map { case (position, piece) =>
         <piece>

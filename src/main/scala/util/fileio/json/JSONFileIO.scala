@@ -14,8 +14,8 @@ import model.position.PositionBaseImpl
 import model.field.FieldBaseImpl
 import model.pieces.*
 
-final case class JsonFileIO @Inject (path: String) extends FileIO(path) {
-  override def toData(gameState: GameStateInterface): String = {
+final class JsonFileIO extends FileIO {
+  override def toData(gameState: GameStateInterface, path: String): String = {
     val data = Json.obj(
       "currentPlayer" -> gameState.getField().getCurrentPlayer().toString(),
       "pieces" -> Json.toJson(
@@ -34,7 +34,10 @@ final case class JsonFileIO @Inject (path: String) extends FileIO(path) {
     return Json.prettyPrint(data)
   }
 
-  override def fromData(jsonString: String): GameStateInterface = {
+  override def fromData(
+      jsonString: String,
+      path: String
+  ): GameStateInterface = {
     val fieldJson: JsValue = Json.parse(jsonString)
 
     val currentPlayer = (fieldJson \ "currentPlayer").as[String]

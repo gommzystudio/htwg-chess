@@ -25,7 +25,7 @@ final case class SchachXmlModule() extends AbstractModule {
       new GameStateBaseImpl(FieldFactory.createInitialField())
     )
     bind(classOf[FileIO]).toInstance(
-      XMLFileIO("saves/savegame.xml")
+      XMLFileIO()
     )
     bind(classOf[ControllerInterface]).to(classOf[ControllerBaseImpl])
   }

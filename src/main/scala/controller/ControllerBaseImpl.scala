@@ -18,12 +18,16 @@ class ControllerBaseImpl @Inject() (
     val fileIO: FileIO
 ) extends ControllerInterface
     with UpdaterBaseImpl {
-  def load() = {
-    val newGameState = fileIO.read()
+  def load(path: String) = {
+    val newGameState = fileIO.read(path)
     if (newGameState != null) {
       gameState = newGameState
       update(newGameState)
     }
+  }
+
+  def save(path: String) = {
+    fileIO.write(path, gameState)
   }
 
   def addViewAndUpdate(view: ViewInterface) = {
@@ -63,7 +67,6 @@ class ControllerBaseImpl @Inject() (
         gameState = newGameState
 
         update(gameState)
-        fileIO.write(gameState)
       case Failure(_) =>
         println("Kein Stück zum Bewegen")
     }

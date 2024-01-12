@@ -26,7 +26,7 @@ final case class SchachMattModule() extends AbstractModule {
       new GameStateBaseImpl(FieldFactory.createEndGameExample().flipPlayer())
     )
     bind(classOf[FileIO]).toInstance(
-      JsonFileIO("saves/schachmatt.json")
+      JsonFileIO()
     )
     bind(classOf[ControllerInterface]).to(classOf[ControllerBaseImpl])
   }

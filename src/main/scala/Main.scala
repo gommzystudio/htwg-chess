@@ -15,12 +15,9 @@ def start = {
   val controller =
     mattInjector.getInstance(classOf[ControllerInterface])
 
-  controller.load();
-
   val tui: TUI = TUI(controller);
   val gui: GUI = GUI(controller);
 
-  // start in new thread
   new Thread(() => {
     gui.main(Array());
   }).start();

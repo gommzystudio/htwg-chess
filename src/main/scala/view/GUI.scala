@@ -87,6 +87,8 @@ class GUI(controller: ControllerInterface)
               updateGuiWithGameState(controller.getGameSate(), filteredMoves)
             case "undo" => controller.undoCommand()
             case "redo" => controller.redoCommand()
+            case "save" => controller.save(args(1))
+            case "load" => controller.load(args(1))
             case _      => println("Unknown command")
           }
         }

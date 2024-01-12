@@ -25,7 +25,7 @@ final case class SchachModule() extends AbstractModule {
       new GameStateBaseImpl(FieldFactory.createInitialField())
     )
     bind(classOf[FileIO]).toInstance(
-      CompatibleFileIO("saves/savegame.json")
+      CompatibleFileIO()
     )
     bind(classOf[ControllerInterface]).to(classOf[ControllerBaseImpl])
   }
