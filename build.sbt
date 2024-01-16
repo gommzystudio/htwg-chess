@@ -2,12 +2,11 @@ val scala3Version = "3.3.1"
 
 lazy val root = project
   .in(file("."))
+  .enablePlugins(ScoverageSbtPlugin)
   .settings(
     name := "chess",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
-    // Exclude Main.scala and ...Module.scala from coverage report
-    coverageExcludedFiles := "*Main.*;*Module.*",
     coverageExcludedPackages := "<empty>;view.*"
   )
 
