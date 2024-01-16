@@ -3,15 +3,12 @@ package model.moves
 import model.pieces.Piece
 import model.position.PositionInterface
 import model.field.FieldInterface
-import model.commands.MoveCommand
-import scala.util.Success
-import scala.util.Failure
 
 trait MoveValidator {
-  var nextMoveValidator: MoveValidator = _
+  var nextMoveValidator: Option[MoveValidator] = None
 
-  def setNext(moveValidator: MoveValidator): Unit = {
-    nextMoveValidator = moveValidator
+  def next(moveValidator: MoveValidator): Unit = {
+    nextMoveValidator = Some(moveValidator)
   }
 
   def callNextMoveValidator(
@@ -20,10 +17,11 @@ trait MoveValidator {
       field: FieldInterface,
       moves: List[PositionInterface]
   ): List[PositionInterface] = {
-    if (nextMoveValidator != null)
-      return nextMoveValidator.getValidMoves(piece, position, field, moves)
-    else
-      return moves
+    nextMoveValidator match {
+      case Some(validator) =>
+        validator.getValidMoves(piece, position, field, moves)
+      case None => moves
+    }
   }
 
   def getValidMoves(

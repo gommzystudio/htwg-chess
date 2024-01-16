@@ -6,11 +6,9 @@ import model.moves.special.KnightMoveValidator
 import util.color.Color
 
 class Knight(c: Color) extends Piece(c) {
-  override def getSymbol() = {
-    return if (c == Color.White) "♘" else "♞"
-  }
+  override def getSymbol() = if (c == Color.White) "♘" else "♞"
 
-  override def whiteAvailableMoves(
+  override def availableMoves(
       position: PositionInterface,
       field: FieldInterface
   ): List[PositionInterface] = {

@@ -1,96 +1,53 @@
 package model.gamestate
 
 import model.commands.Command
-import model.commands.MoveCommand
-import scala.util.Success
-import scala.util.Failure
-import scala.util.Try
 import model.field.FieldInterface
-import model.gamestate.GameStateInterface
-import util.color.*
-import com.google.inject.Inject
 import model.field.FieldFactory
-import scala.xml.Elem
-import play.api.libs.json.Json
+import scala.util.{Try, Success}
+import util.color.Color
+import com.google.inject.Inject
 
 class GameStateBaseImpl(
     val field: FieldInterface = FieldFactory.createInitialField(),
     undoStack: List[Command] = List(),
     redoStack: List[Command] = List()
 ) extends GameStateInterface {
-  def executeCommand(command: Command): GameStateBaseImpl = {
-    val newField: Try[FieldInterface] = command.execute()
-    val newUndoStack = command :: undoStack
 
+  private def updateState(
+      newField: Try[FieldInterface],
+      newUndoStack: List[Command],
+      newRedoStack: List[Command] = redoStack
+  ): GameStateBaseImpl =
     newField match {
-      case Success(field) => {
-        return new GameStateBaseImpl(
-          field,
-          newUndoStack,
-          List()
-        )
-      }
-      case Failure(exception) => {
-        return this
-      }
+      case Success(updatedField) =>
+        new GameStateBaseImpl(updatedField, newUndoStack, newRedoStack)
+      case _ => this
     }
-  }
 
-  def getUndoStack(): List[Command] = {
-    return undoStack
-  }
+  def executeCommand(command: Command): GameStateBaseImpl =
+    updateState(command.execute(), command :: undoStack, List())
 
-  def getRedoStack(): List[Command] = {
-    return redoStack
-  }
+  def undoCommand(): GameStateBaseImpl =
+    if (undoStack.isEmpty) this
+    else
+      updateState(
+        undoStack.head.undo(),
+        undoStack.tail,
+        undoStack.head :: redoStack
+      )
 
-  def undoCommand(): GameStateBaseImpl = {
-    if (undoStack.isEmpty) {
-      return this
-    }
-    val command = undoStack.head
-    val newField = command.undo()
-    val newUndoStack = undoStack.tail
-    val newRedoStack = command :: redoStack
+  def redoCommand(): GameStateBaseImpl =
+    if (redoStack.isEmpty) this
+    else
+      updateState(
+        redoStack.head.execute(),
+        redoStack.head :: undoStack,
+        redoStack.tail
+      )
 
-    newField match {
-      case Success(field) => {
-        return new GameStateBaseImpl(
-          field,
-          newUndoStack,
-          newRedoStack
-        )
-      }
-      case Failure(exception) => {
-        return this
-      }
-    }
-  }
+  def getField(): FieldInterface = field
 
-  def redoCommand(): GameStateBaseImpl = {
-    if (redoStack.isEmpty) {
-      return this
-    }
-    val command = redoStack.head
-    val newField = command.execute()
-    val newUndoStack = command :: undoStack
-    val newRedoStack = redoStack.tail
+  def getUndoStack(): List[Command] = undoStack
 
-    newField match {
-      case Success(field) => {
-        return new GameStateBaseImpl(
-          field,
-          newUndoStack,
-          newRedoStack
-        )
-      }
-      case Failure(exception) => {
-        return this
-      }
-    }
-  }
-
-  def getField(): FieldInterface = {
-    return field
-  }
+  def getRedoStack(): List[Command] = redoStack
 }

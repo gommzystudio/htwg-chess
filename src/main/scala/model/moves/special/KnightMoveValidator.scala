@@ -1,12 +1,9 @@
 package model.moves.special
 
 import model.moves.MoveValidator
-import model.pieces.Piece
+import model.pieces.{Piece, Knight}
 import model.field.FieldInterface
-import model.position.PositionBaseImpl
-import model.position.PositionInterface
-import scala.collection.mutable.ArrayBuffer
-import model.pieces.Knight
+import model.position.{PositionBaseImpl, PositionInterface}
 
 class KnightMoveValidator extends MoveValidator {
   override def getValidMoves(
@@ -17,48 +14,25 @@ class KnightMoveValidator extends MoveValidator {
   ): List[PositionInterface] = {
     assert(piece.isInstanceOf[Knight])
 
-    var newMoves = moves
-
-    val upLeftPosition =
-      PositionBaseImpl(position.getX() - 1, position.getY() + 2)
-    val upRightPosition =
-      PositionBaseImpl(position.getX() + 1, position.getY() + 2)
-    val leftUpPosition =
-      PositionBaseImpl(position.getX() - 2, position.getY() + 1)
-    val leftDownPosition =
-      PositionBaseImpl(position.getX() - 2, position.getY() - 1)
-    val downLeftPosition =
-      PositionBaseImpl(position.getX() - 1, position.getY() - 2)
-    val downRightPosition =
-      PositionBaseImpl(position.getX() + 1, position.getY() - 2)
-    val rightUpPosition =
-      PositionBaseImpl(position.getX() + 2, position.getY() + 1)
-    val rightDownPosition =
-      PositionBaseImpl(position.getX() + 2, position.getY() - 1)
-
-    val positions = List(
-      upLeftPosition,
-      upRightPosition,
-      leftUpPosition,
-      leftDownPosition,
-      downLeftPosition,
-      downRightPosition,
-      rightUpPosition,
-      rightDownPosition
+    val directions = List(
+      (-1, 2),
+      (1, 2),
+      (-2, 1),
+      (-2, -1),
+      (-1, -2),
+      (1, -2),
+      (2, 1),
+      (2, -1)
     )
 
-    for (pos <- positions) {
-      if (
-        field.getPiece(pos.x, pos.y) != None && field
-          .getPiece(pos.x, pos.y)
-          .get
-          .color != piece.color
-        || field.getPiece(pos.x, pos.y) == None
-      ) {
-        newMoves = pos :: newMoves
-      }
-    }
+    val newMoves = for {
+      (dx, dy) <- directions
+      newPos = PositionBaseImpl(position.getX() + dx, position.getY() + dy)
+      if field.isPositionValid(newPos) && (field
+        .getPiece(newPos)
+        .isEmpty || field.getPiece(newPos).exists(_.color != piece.color))
+    } yield newPos
 
-    return callNextMoveValidator(piece, position, field, newMoves)
+    return callNextMoveValidator(piece, position, field, moves ++ newMoves)
   }
 }

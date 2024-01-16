@@ -14,11 +14,9 @@ import model.position.PositionInterface
 import util.color.Color
 
 class Pawn(c: Color) extends Piece(c) {
-  override def getSymbol() = {
-    return if (c == Color.White) "♙" else "♟"
-  }
+  override def getSymbol() = if (c == Color.White) "♙" else "♟"
 
-  override def whiteAvailableMoves(
+  override def availableMoves(
       position: PositionInterface,
       field: FieldInterface
   ): List[PositionInterface] = {
@@ -26,8 +24,8 @@ class Pawn(c: Color) extends Piece(c) {
     val firstMoveValidator = new PawnFirstMoveValidator()
     val captureMoveValidator = new PawnCaptureMoveValidator()
 
-    standardMoveValidator.setNext(firstMoveValidator)
-    firstMoveValidator.setNext(captureMoveValidator)
+    standardMoveValidator.next(firstMoveValidator)
+    firstMoveValidator.next(captureMoveValidator)
 
     return standardMoveValidator.getValidMoves(
       this,

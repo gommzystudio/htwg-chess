@@ -56,13 +56,18 @@ final case class Renderer() {
 
   def render(
       gameState: GameStateInterface,
-      availableMoves: List[PositionInterface] = List()
+      availableMoves: List[PositionInterface] = List(),
+      winner: String
   ): String = {
     return """
 <div class="bg-gray-100 w-screen h-screen">
   <div class="h-screen w-screen bg-gray-300">
     <div class="flex flex-col gap-3 p-5">
-      <div class="w-full rounded-3xl bg-gray-50 shadow-lg text-center justify-center text-gray-400 font-bold">
+      <div class="w-full rounded-3xl bg-gray-50 shadow-lg text-center justify-center text-gray-400 font-bold relative overflow-hidden">
+        """
+      + showWinner(winner) +
+      """
+
         <div class="flex w-full h-8">
           <div class="w-8"></div>
           <div class="flex w-full justify-around h-10 items-center text-center">
@@ -82,53 +87,53 @@ final case class Renderer() {
           <div class="w-8 m-auto">8</div>
           <div class="grid grid-cols-8 w-full rounded-t-xl overflow-hidden shadow-lg">
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      1,
-      8
-    ) + """</div>
+        gameState,
+        availableMoves,
+        1,
+        8
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      2,
-      8
-    ) + """</div>
+        gameState,
+        availableMoves,
+        2,
+        8
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      3,
-      8
-    ) + """</div>
+        gameState,
+        availableMoves,
+        3,
+        8
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      4,
-      8
-    ) + """</div>
+        gameState,
+        availableMoves,
+        4,
+        8
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      5,
-      8
-    ) + """</div>
+        gameState,
+        availableMoves,
+        5,
+        8
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      6,
-      8
-    ) + """</div>
+        gameState,
+        availableMoves,
+        6,
+        8
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      7,
-      8
-    ) + """</div>
+        gameState,
+        availableMoves,
+        7,
+        8
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      8,
-      8
-    ) + """</div>
+        gameState,
+        availableMoves,
+        8,
+        8
+      ) + """</div>
           </div>
           <div class="w-8 m-auto">8</div>
         </div>
@@ -137,53 +142,53 @@ final case class Renderer() {
           <div class="w-8 m-auto">7</div>
           <div class="grid grid-cols-8 w-full shadow-lg">
             <div class="bg-gray-900 square" onclick="selectField('a7')">""" + renderPiece(
-      gameState,
-      availableMoves,
-      1,
-      7
-    ) + """</div>
+        gameState,
+        availableMoves,
+        1,
+        7
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      2,
-      7
-    ) + """</div>
+        gameState,
+        availableMoves,
+        2,
+        7
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      3,
-      7
-    ) + """</div>
+        gameState,
+        availableMoves,
+        3,
+        7
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      4,
-      7
-    ) + """</div>
+        gameState,
+        availableMoves,
+        4,
+        7
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      5,
-      7
-    ) + """</div>
+        gameState,
+        availableMoves,
+        5,
+        7
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      6,
-      7
-    ) + """</div>
+        gameState,
+        availableMoves,
+        6,
+        7
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      7,
-      7
-    ) + """</div>
+        gameState,
+        availableMoves,
+        7,
+        7
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      8,
-      7
-    ) + """</div>
+        gameState,
+        availableMoves,
+        8,
+        7
+      ) + """</div>
           </div>
           <div class="w-8 m-auto">7</div>
         </div>
@@ -192,108 +197,108 @@ final case class Renderer() {
           <div class="w-8 m-auto">6</div>
           <div class="grid grid-cols-8 w-full shadow-lg">
             <div class="bg-gray-200 square"">""" + renderPiece(
-      gameState,
-      availableMoves,
-      1,
-      6
-    ) + """</div>
+        gameState,
+        availableMoves,
+        1,
+        6
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      2,
-      6
-    ) + """</div>
+        gameState,
+        availableMoves,
+        2,
+        6
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      3,
-      6
-    ) + """</div>
+        gameState,
+        availableMoves,
+        3,
+        6
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      4,
-      6
-    ) + """</div>
+        gameState,
+        availableMoves,
+        4,
+        6
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      5,
-      6
-    ) + """</div>
+        gameState,
+        availableMoves,
+        5,
+        6
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      6,
-      6
-    ) + """</div>
+        gameState,
+        availableMoves,
+        6,
+        6
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      7,
-      6
-    ) + """</div>
+        gameState,
+        availableMoves,
+        7,
+        6
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      8,
-      6
-    ) + """</div>
+        gameState,
+        availableMoves,
+        8,
+        6
+      ) + """</div>
           </div>
           <div class="w-8 m-auto">6</div>
         </div>
 
-        <div class="flex w-full justify-between">
+        <div class="flex w-full justify-between relative">
           <div class="w-8 m-auto">5</div>
           <div class="grid grid-cols-8 w-full shadow-lg">
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      1,
-      5
-    ) + """</div>
+        gameState,
+        availableMoves,
+        1,
+        5
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      2,
-      5
-    ) + """</div>
+        gameState,
+        availableMoves,
+        2,
+        5
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      3,
-      5
-    ) + """</div>
+        gameState,
+        availableMoves,
+        3,
+        5
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      4,
-      5
-    ) + """</div>
+        gameState,
+        availableMoves,
+        4,
+        5
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      5,
-      5
-    ) + """</div>
+        gameState,
+        availableMoves,
+        5,
+        5
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      6,
-      5
-    ) + """</div>
+        gameState,
+        availableMoves,
+        6,
+        5
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      7,
-      5
-    ) + """</div>
+        gameState,
+        availableMoves,
+        7,
+        5
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      8,
-      5
-    ) + """</div>
+        gameState,
+        availableMoves,
+        8,
+        5
+      ) + """</div>
           </div>
           <div class="w-8 m-auto">5</div>
         </div>
@@ -302,53 +307,53 @@ final case class Renderer() {
           <div class="w-8 m-auto">4</div>
           <div class="grid grid-cols-8 w-full shadow-lg">
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      1,
-      4
-    ) + """</div>
+        gameState,
+        availableMoves,
+        1,
+        4
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      2,
-      4
-    ) + """</div>
+        gameState,
+        availableMoves,
+        2,
+        4
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      3,
-      4
-    ) + """</div>
+        gameState,
+        availableMoves,
+        3,
+        4
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      4,
-      4
-    ) + """</div>
+        gameState,
+        availableMoves,
+        4,
+        4
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      5,
-      4
-    ) + """</div>
+        gameState,
+        availableMoves,
+        5,
+        4
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      6,
-      4
-    ) + """</div>
+        gameState,
+        availableMoves,
+        6,
+        4
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      7,
-      4
-    ) + """</div>
+        gameState,
+        availableMoves,
+        7,
+        4
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      8,
-      4
-    ) + """</div>
+        gameState,
+        availableMoves,
+        8,
+        4
+      ) + """</div>
           </div>
           <div class="w-8 m-auto">4</div>
         </div>
@@ -357,53 +362,53 @@ final case class Renderer() {
           <div class="w-8 m-auto">3</div>
           <div class="grid grid-cols-8 w-full shadow-lg">
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      1,
-      3
-    ) + """</div>
+        gameState,
+        availableMoves,
+        1,
+        3
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      2,
-      3
-    ) + """</div>
+        gameState,
+        availableMoves,
+        2,
+        3
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      3,
-      3
-    ) + """</div>
+        gameState,
+        availableMoves,
+        3,
+        3
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      4,
-      3
-    ) + """</div>
+        gameState,
+        availableMoves,
+        4,
+        3
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      5,
-      3
-    ) + """</div>
+        gameState,
+        availableMoves,
+        5,
+        3
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      6,
-      3
-    ) + """</div>
+        gameState,
+        availableMoves,
+        6,
+        3
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      7,
-      3
-    ) + """</div>
+        gameState,
+        availableMoves,
+        7,
+        3
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      8,
-      3
-    ) + """</div>
+        gameState,
+        availableMoves,
+        8,
+        3
+      ) + """</div>
           </div>
           <div class="w-8 m-auto">3</div>
         </div>
@@ -412,53 +417,53 @@ final case class Renderer() {
           <div class="w-8 m-auto">2</div>
           <div class="grid grid-cols-8 w-full shadow-lg">
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      1,
-      2
-    ) + """</div>
+        gameState,
+        availableMoves,
+        1,
+        2
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      2,
-      2
-    ) + """</div>
+        gameState,
+        availableMoves,
+        2,
+        2
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      3,
-      2
-    ) + """</div>
+        gameState,
+        availableMoves,
+        3,
+        2
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      4,
-      2
-    ) + """</div>
+        gameState,
+        availableMoves,
+        4,
+        2
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      5,
-      2
-    ) + """</div>
+        gameState,
+        availableMoves,
+        5,
+        2
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      6,
-      2
-    ) + """</div>
+        gameState,
+        availableMoves,
+        6,
+        2
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      7,
-      2
-    ) + """</div>
+        gameState,
+        availableMoves,
+        7,
+        2
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      8,
-      2
-    ) + """</div>
+        gameState,
+        availableMoves,
+        8,
+        2
+      ) + """</div>
           </div>
           <div class="w-8 m-auto">2</div>
         </div>
@@ -467,53 +472,53 @@ final case class Renderer() {
           <div class="w-8 m-auto">1</div>
           <div class="grid grid-cols-8 w-full rounded-b-xl overflow-hidden shadow-lg">
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      1,
-      1
-    ) + """</div>
+        gameState,
+        availableMoves,
+        1,
+        1
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      2,
-      1
-    ) + """</div>
+        gameState,
+        availableMoves,
+        2,
+        1
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      3,
-      1
-    ) + """</div>
+        gameState,
+        availableMoves,
+        3,
+        1
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      4,
-      1
-    ) + """</div>
+        gameState,
+        availableMoves,
+        4,
+        1
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      5,
-      1
-    ) + """</div>
+        gameState,
+        availableMoves,
+        5,
+        1
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      6,
-      1
-    ) + """</div>
+        gameState,
+        availableMoves,
+        6,
+        1
+      ) + """</div>
             <div class="bg-gray-900 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      7,
-      1
-    ) + """</div>
+        gameState,
+        availableMoves,
+        7,
+        1
+      ) + """</div>
             <div class="bg-gray-200 square">""" + renderPiece(
-      gameState,
-      availableMoves,
-      8,
-      1
-    ) + """</div>
+        gameState,
+        availableMoves,
+        8,
+        1
+      ) + """</div>
           </div>        
           <div class="w-8 m-auto">1</div>
         </div>
@@ -562,6 +567,7 @@ final case class Renderer() {
   font-size: 3rem; /* Größe der Schachfigur */
 }
 </style>
+
 """
   }
 
@@ -596,6 +602,25 @@ final case class Renderer() {
     """
     } else {
       return ""
+    }
+  }
+
+  def showWinner(winner: String): String = {
+    winner match {
+      case "White" =>
+        return """
+        <div class="z-10 absolute flex h-full w-full items-center bg-white bg-opacity-50">
+          <h1 class="text-2xl w-full text-center">Weiß hat gewonnen!</h1>
+        </div>
+        """
+      case "Black" =>
+        return """
+        <div class="z-10 absolute flex h-full w-full items-center bg-white bg-opacity-50">
+          <h1 class="text-2xl w-full text-center">Schwarz hat gewonnen!</h1>
+        </div>
+        """
+      case _ =>
+        return ""
     }
   }
 }

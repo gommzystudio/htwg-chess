@@ -12,9 +12,20 @@ object FieldFactory {
   def createEndGameExample(): FieldBaseImpl = {
     return FieldBaseImpl(
       Map(
-        PositionBaseImpl(1, 1) -> King(Color.White),
-        PositionBaseImpl(1, 8) -> King(Color.Black),
-        PositionBaseImpl(2, 2) -> Rook(Color.Black)
+        PositionBaseImpl(1, 1) -> King(Color.Black),
+        PositionBaseImpl(1, 8) -> King(Color.White),
+        PositionBaseImpl(2, 8) -> Rook(Color.Black)
+      )
+    );
+  }
+
+  def createCheckMateExample(): FieldBaseImpl = {
+    return FieldBaseImpl(
+      Map(
+        PositionBaseImpl(1, 1) -> King(Color.Black),
+        PositionBaseImpl(1, 8) -> King(Color.White),
+        PositionBaseImpl(2, 8) -> Rook(Color.Black),
+        PositionBaseImpl(2, 7) -> Rook(Color.Black)
       )
     );
   }

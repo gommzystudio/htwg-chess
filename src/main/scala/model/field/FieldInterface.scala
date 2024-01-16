@@ -14,4 +14,6 @@ trait FieldInterface {
   def isCheck(color: Color): Boolean
   def getCurrentPlayer(): Color
   def flipPlayer(): FieldInterface
+  def isCheckMate(): Option[Color]
+  def isPositionValid(pos: PositionInterface): Boolean
 }

@@ -3,23 +3,14 @@ package model.position
 import model.position.PositionInterface
 import com.google.inject.Inject
 
-case class PositionBaseImpl (x: Int, y: Int)
-    extends PositionInterface(x, y) {
-  def getCharX(): Char = {
-    return (x + 'a' - 1).toChar
-  }
+case class PositionBaseImpl(x: Int, y: Int) extends PositionInterface(x, y) {
+  def getCharX(): Char = (x + 'a' - 1).toChar
 
-  def flipPosition(): PositionBaseImpl = {
-    return PositionBaseImpl(9 - x, 9 - y)
-  }
+  def flipPosition(): PositionBaseImpl = PositionBaseImpl(9 - x, 9 - y)
 
-  def getX(): Int = {
-    return x
-  }
+  def getX(): Int = x
 
-  def getY(): Int = {
-    return y
-  }
+  def getY(): Int = y
 }
 
 object PositionBaseImpl {

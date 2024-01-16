@@ -5,11 +5,15 @@ lazy val root = project
   .settings(
     name := "chess",
     version := "0.1.0-SNAPSHOT",
-    scalaVersion := scala3Version
+    scalaVersion := scala3Version,
+    // Exclude Main.scala and ...Module.scala from coverage report
+    coverageExcludedFiles := "*Main.*;*Module.*",
+    coverageExcludedPackages := "<empty>;view.*"
   )
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.17"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.17" % "test"
+libraryDependencies += "org.scalatestplus" %% "mockito-5-8" % "3.2.17.0" % Test
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.17" % Test
 
 libraryDependencies += "org.scalafx" %% "scalafx" % "21.0.0-R32"
 libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
@@ -32,9 +36,18 @@ libraryDependencies ++= {
 fork := true
 connectInput := true
 
+// JavaFX auf Mac:
 javaOptions in run ++= Seq(
   "--module-path",
   "javafx-sdk-21.0.1/lib",
   "--add-modules",
   "javafx.controls,javafx.fxml,javafx.web"
 )
+
+// JavaFX in Docker:
+// javaOptions in run ++= Seq(
+//   "--module-path",
+//   "/opt/javafx/javafx-sdk-21/lib",
+//   "--add-modules",
+//   "javafx.controls,javafx.fxml,javafx.web"
+// )

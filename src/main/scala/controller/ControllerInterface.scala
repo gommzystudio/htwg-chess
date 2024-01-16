@@ -10,7 +10,7 @@ trait ControllerInterface {
   def undoCommand(): Unit
   def redoCommand(): Unit
   def runMoveCommand(from: PositionInterface, to: PositionInterface): Unit
-  def getGameSate(): GameStateInterface
+  def getGameState(): GameStateInterface
   def addViewAndUpdate(view: ViewInterface): Unit
   def load(path: String): Unit
   def save(path: String): Unit

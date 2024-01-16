@@ -14,59 +14,62 @@ case class FieldBaseImpl(
     pieces: Map[PositionInterface, Piece],
     currentPlayer: Color = Color.White
 ) extends FieldInterface {
-  def getPiece(position: PositionInterface): Option[Piece] = {
-    return pieces.get(position)
-  }
+  def getPiece(position: PositionInterface): Option[Piece] =
+    pieces.get(position)
 
-  def getPiece(x: Int, y: Int): Option[Piece] = {
-    return pieces.get(PositionBaseImpl(x, y))
-  }
-
-  def setPiece(position: PositionInterface, piece: Piece): FieldInterface = {
-    return FieldBaseImpl(pieces + (position -> piece), currentPlayer)
-  }
-
-  def removePiece(position: PositionInterface): FieldInterface = {
-    return FieldBaseImpl(pieces - position, currentPlayer)
-  }
-
-  def flipBoard(): FieldBaseImpl = {
-    var newPieces = Map[PositionInterface, Piece]()
-    for ((position, piece) <- pieces) {
-      newPieces = newPieces + (position.flipPosition() -> piece)
-    }
-    return FieldBaseImpl(newPieces)
-  }
-
-  def getPieces(): Map[PositionInterface, Piece] = {
-    return pieces
-  }
-
-  def isCheck(color: Color): Boolean = {
-    var kingPosition: PositionInterface = PositionBaseImpl(0, 0)
-    for ((position, piece) <- pieces) {
-      if (piece.isInstanceOf[King] && piece.color == color) {
-        kingPosition = position
-      }
-    }
-
-    for ((position, piece) <- pieces) {
-      if (piece.color != color) {
-        val validMoves = piece.availableMoves(position, this)
-        if (validMoves.contains(kingPosition)) {
-          return true
+  def isCheckMate(): Option[Color] =
+    if (isCheck(currentPlayer)) {
+      val noValidMoves = pieces
+        .filter { case (_, piece) => piece.color == currentPlayer }
+        .forall { case (position, piece) =>
+          piece
+            .availableMoves(position, this)
+            .forall(move =>
+              setPiece(move, piece).removePiece(position).isCheck(currentPlayer)
+            )
         }
+      if (noValidMoves) Some(currentPlayer) else None
+    } else None
+
+  def getPiece(x: Int, y: Int): Option[Piece] =
+    pieces.get(PositionBaseImpl(x, y))
+
+  def setPiece(position: PositionInterface, piece: Piece): FieldInterface =
+    FieldBaseImpl(pieces + (position -> piece), currentPlayer)
+
+  def removePiece(position: PositionInterface): FieldInterface =
+    FieldBaseImpl(pieces - position, currentPlayer)
+
+  def flipBoard(): FieldBaseImpl =
+    FieldBaseImpl(pieces.map { case (position, piece) =>
+      position
+        .flipPosition() -> piece
+    })
+
+  def getPieces(): Map[PositionInterface, Piece] = pieces
+
+  def isCheck(color: Color): Boolean =
+    findKing(color).exists { kingPosition =>
+      pieces.exists { case (position, piece) =>
+        piece.color != color && piece
+          .availableMoves(position, this)
+          .contains(kingPosition)
       }
     }
 
-    return false
-  }
+  def findKing(color: Color): Option[PositionInterface] =
+    pieces.collectFirst {
+      case (position, piece: King) if piece.color == color => position
+    }
 
-  def getCurrentPlayer(): Color = {
-    return currentPlayer
-  }
+  def getCurrentPlayer(): Color = currentPlayer
 
-  def flipPlayer(): FieldBaseImpl = {
-    return FieldBaseImpl(pieces, flipColor(currentPlayer))
-  }
+  def flipPlayer(): FieldBaseImpl =
+    FieldBaseImpl(pieces, flipColor(currentPlayer))
+
+  def flipColor(color: Color): Color =
+    if (color == Color.White) Color.Black else Color.White
+
+  def isPositionValid(pos: PositionInterface): Boolean =
+    pos.getX() >= 1 && pos.getX() <= 8 && pos.getY() >= 1 && pos.getY() <= 8
 }

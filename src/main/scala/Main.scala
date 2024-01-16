@@ -1,9 +1,6 @@
-import controller.ControllerBaseImpl;
-import controller.ControllerInterface;
-import view.TUI;
-import view.GUI;
-import com.google.inject.Injector
-import com.google.inject.Guice
+import com.google.inject.{Guice, Injector}
+import controller.{ControllerBaseImpl, ControllerInterface}
+import view.{GUI, TUI}
 
 @main
 def start = {

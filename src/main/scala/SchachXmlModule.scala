@@ -7,19 +7,18 @@ import model.pieces.Piece
 import model.position.{PositionBaseImpl, PositionInterface}
 import util.color.Color
 import util.fileio.FileIO
-import util.fileio.json.JsonFileIO
+import util.fileio.xml.XMLFileIO
 import util.updater.{UpdaterBaseImpl, UpdaterInterface}
 
-import java.util.ResourceBundle.Control
 import scala.collection.immutable.Map
 
-final case class SchachMattModule() extends AbstractModule {
-  override def configure() = {
+final case class SchachXmlModule() extends AbstractModule {
+  override def configure(): Unit = {
     bind(classOf[GameStateInterface]).toInstance(
-      new GameStateBaseImpl(FieldFactory.createCheckMateExample().flipPlayer())
+      new GameStateBaseImpl(FieldFactory.createInitialField())
     )
     bind(classOf[FileIO]).toInstance(
-      JsonFileIO()
+      XMLFileIO()
     )
     bind(classOf[ControllerInterface]).to(classOf[ControllerBaseImpl])
   }

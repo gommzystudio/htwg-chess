@@ -7,18 +7,16 @@ import model.moves.DiagonalMoveValidator
 import util.color.Color
 
 class King(c: Color) extends Piece(c) {
-  override def getSymbol() = {
-    return if (c == Color.White) "♔" else "♚"
-  }
+  override def getSymbol() = if (c == Color.White) "♔" else "♚"
 
-  override def whiteAvailableMoves(
+  override def availableMoves(
       position: PositionInterface,
       field: FieldInterface
   ): List[PositionInterface] = {
     val straightMoveValidator = new StraightMoveValidator(dist = 1)
     val diagonalMoveValidator = new DiagonalMoveValidator(dist = 1)
 
-    straightMoveValidator.setNext(diagonalMoveValidator)
+    straightMoveValidator.next(diagonalMoveValidator)
 
     return straightMoveValidator.getValidMoves(
       this,

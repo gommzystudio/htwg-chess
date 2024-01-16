@@ -8,6 +8,7 @@ import model.field.FieldInterface
 import model.gamestate.GameStateInterface
 import scala.collection.mutable.ArrayBuffer
 import model.pieces.Pawn
+import util.color.Color
 
 class PawnStandardMoveValidator extends MoveValidator {
   override def getValidMoves(
@@ -18,13 +19,20 @@ class PawnStandardMoveValidator extends MoveValidator {
   ): List[PositionInterface] = {
     assert(piece.isInstanceOf[Pawn])
 
-    var newMoves = moves
-
-    val newPosition = PositionBaseImpl(position.getX(), position.getY() + 1)
-    if (field.getPiece(newPosition.getX(), newPosition.getY()) == None) {
-      newMoves = newPosition :: newMoves
+    val direction = piece.color match {
+      case Color.White => 1
+      case Color.Black => -1
     }
 
-    return callNextMoveValidator(piece, position, field, newMoves)
+    val newPosition =
+      PositionBaseImpl(position.getX(), position.getY() + direction)
+
+    if (
+      field.getPiece(newPosition).isEmpty && field.isPositionValid(newPosition)
+    ) {
+      return callNextMoveValidator(piece, position, field, newPosition :: moves)
+    } else {
+      return callNextMoveValidator(piece, position, field, moves)
+    }
   }
 }

@@ -12,24 +12,6 @@ trait Piece(c: Color) {
   def availableMoves(
       position: PositionInterface,
       field: FieldInterface
-  ): List[PositionInterface] = {
-    if (field.getCurrentPlayer() != c) {
-      return List()
-    }
-
-    if (c == Color.White) {
-      return whiteAvailableMoves(position, field)
-    } else {
-      return whiteAvailableMoves(position.flipPosition(), field.flipBoard())
-        .map(
-          _.flipPosition()
-        );
-    }
-  }
-
-  def whiteAvailableMoves(
-      position: PositionInterface,
-      field: FieldInterface
   ): List[PositionInterface]
 
   def getSymbol(): String

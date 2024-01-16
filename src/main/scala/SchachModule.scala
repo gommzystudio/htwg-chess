@@ -1,23 +1,16 @@
-import com.google.inject.AbstractModule
-import controller.ControllerInterface
-import controller.ControllerBaseImpl
-import model.gamestate.GameStateBaseImpl
-import model.field.FieldInterface
-import model.gamestate.GameStateInterface
-import model.field.FieldBaseImpl
-import util.updater.UpdaterInterface
-import util.updater.UpdaterBaseImpl
-import model.position.PositionInterface
-import model.position.PositionBaseImpl
-import model.commands.CommandMockImpl
+import com.google.inject.{AbstractModule, TypeLiteral}
+import controller.{ControllerBaseImpl, ControllerInterface}
 import model.commands.Command
-import model.field.FieldFactory
-import com.google.inject.TypeLiteral
+import model.field.{FieldBaseImpl, FieldFactory, FieldInterface}
+import model.gamestate.{GameStateBaseImpl, GameStateInterface}
 import model.pieces.Piece
-import scala.collection.immutable.Map
+import model.position.{PositionBaseImpl, PositionInterface}
 import util.color.Color
 import util.fileio.FileIO
 import util.fileio.compatible.CompatibleFileIO
+import util.updater.{UpdaterBaseImpl, UpdaterInterface}
+
+import scala.collection.immutable.Map
 
 final case class SchachModule() extends AbstractModule {
   override def configure() = {

@@ -1,34 +1,45 @@
 package model.commands
 
-import model.position.PositionInterface
 import model.field.FieldInterface
 import model.pieces.Piece
-import scala.util.{Try, Success, Failure}
-import model.commands.Command
+import model.position.PositionInterface
+
+import scala.util.{Failure, Success, Try}
 
 final case class MoveCommand(
     from: PositionInterface,
     to: PositionInterface,
     field: FieldInterface
 ) extends Command {
-  val movedPiece: Option[Piece] = field.getPiece(from)
-  val capturedPiece: Option[Piece] = field.getPiece(to)
+  private val movedPiece: Option[Piece] = field.getPiece(from)
+  private val capturedPiece: Option[Piece] = field.getPiece(to)
 
   override def execute(): Try[FieldInterface] = {
-    movedPiece
-      .map { piece =>
-        val newField = field.removePiece(from).setPiece(to, piece).flipPlayer()
-        Success(newField)
-      }
-      .getOrElse(Failure(new Exception("Kein Stück zum Bewegen")))
+    movedPiece match {
+      case Some(piece) =>
+        Try {
+          field.removePiece(from).setPiece(to, piece).flipPlayer()
+        }
+      case None =>
+        Failure(new NoSuchElementException("Kein Stück am Startfeld vorhanden"))
+    }
   }
 
   override def undo(): Try[FieldInterface] = {
-    movedPiece
-      .map { piece =>
-        val newField = field.setPiece(from, piece).flipPlayer()
-        Success(newField)
-      }
-      .getOrElse(Failure(new Exception("Kein Stück zum Bewegen")))
+    movedPiece match {
+      case Some(piece) =>
+        Try {
+          val fieldWithMovedBack = field.removePiece(to).setPiece(from, piece)
+          capturedPiece.fold(fieldWithMovedBack)(
+            fieldWithMovedBack.setPiece(to, _)
+          )
+        }
+      case None =>
+        Failure(
+          new IllegalStateException(
+            "Rückgängig machen nicht möglich, da kein Stück bewegt wurde"
+          )
+        )
+    }
   }
 }
