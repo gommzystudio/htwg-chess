@@ -1,27 +1,18 @@
 package model.pieces
 
-import model.Position
-import model.Field
+import model.position.PositionInterface
+import model.field.FieldInterface
 import java.io.StringReader
+import model.gamestate.GameStateInterface
+import util.color.Color
 
-enum Color:
-  case Black, White;
-
-abstract class Piece(c: Color) {
+trait Piece(c: Color) {
   val color: Color = c;
 
-  def availableMoves(position: Position, field: Field): List[Position] = {
-    if (c == Color.White) {
-      return whiteAvailableMoves(position, field)
-    } else {
-      return whiteAvailableMoves(position.flipPosition(), field.flipBoard())
-        .map(
-          _.flipPosition()
-        );
-    }
-  }
-
-  def whiteAvailableMoves(position: Position, field: Field): List[Position]
+  def availableMoves(
+      position: PositionInterface,
+      field: FieldInterface
+  ): List[PositionInterface]
 
   def getSymbol(): String
 }

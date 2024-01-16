@@ -1,51 +1,86 @@
 package view
 
-import model.Field
-import controller.Controller
-import model.Position
-import util.View
-import model.GameState
-import model.commands.MoveCommand
+import controller.ControllerInterface
+import model.field.FieldInterface
+import model.gamestate.GameStateInterface
+import model.position.PositionBaseImpl
+import util.color.Color
+import util.updater.UpdaterInterface
+import util.view.ViewInterface
 
-class TUI(controller: Controller) extends View(controller) {
-  override def update(gameState: GameState): Unit = {
-    printField(gameState.getField());
+import scala.util.{Failure, Success, Try}
+
+class TUI(controller: ControllerInterface)
+  extends ViewInterface(controller.asInstanceOf[UpdaterInterface]) {
+  override def startView(): Unit = {
+    controller.addViewAndUpdate(this)
+    waitForInput()
   }
 
-  def printField(field: Field): Unit = {
-    println("\u001b[H\u001b[2J")
-    println("  a b c d e f g h")
-    println("  ---------------")
+  def waitForInput(): Unit = {
+    println("Enter move (e.g. a2a3): ");
+    val input = scala.io.StdIn.readLine(">> ");
+
+    if (input == "exit") {
+      return;
+    }
+    if (input == "undo")
+      controller.undoCommand();
+    else if (input == "redo")
+      controller.redoCommand();
+    else if (input.length() == 4) {
+      val from =
+        PositionBaseImpl.fromChar(input.charAt(0), input.charAt(1).asDigit)
+      val to =
+        PositionBaseImpl.fromChar(input.charAt(2), input.charAt(3).asDigit)
+      controller.runMoveCommand(from, to)
+    }
+
+    waitForInput()
+  }
+
+  override def update(gameState: GameStateInterface): Unit = printField(gameState.getField())
+
+  def printField(field: FieldInterface): Unit = {
+    clearScreen()
+    printBoard(field)
+    printCheckStatus(field)
+    printWinner(field)
+  }
+
+  private def clearScreen(): Unit = println("\u001b[H\u001b[2J")
+
+  private def printBoard(field: FieldInterface): Unit = {
+    val boardHeader = "  a b c d e f g h"
+    val boardDelimiter = "  ---------------"
+
+    println(boardHeader)
+    println(boardDelimiter)
 
     for (y <- 8 to 1 by -1) {
       print(y + "|")
       for (x <- 1 to 8 by 1) {
-        field.pieces.get(Position(x, y)) match {
+        field.getPiece(PositionBaseImpl(x, y)) match {
           case Some(piece) => print(piece.getSymbol() + " ")
-          case None        => print("  ")
+          case None => print("  ")
         }
       }
       println("|" + y)
     }
 
-    println("  ---------------")
-    println("  a b c d e f g h")
+    println(boardDelimiter)
+    println(boardHeader)
   }
 
-  override def waitForInput(fakeInput: List[String] = List()): Unit = {
-    println("Enter move (e.g. a2a3): ");
-    val input =
-      if (fakeInput.isEmpty) scala.io.StdIn.readLine() else fakeInput.head;
+  private def printCheckStatus(field: FieldInterface): Unit = {
+    if (field.isCheck(Color.White)) println("Weiß ist im Schach!")
+    else if (field.isCheck(Color.Black)) println("Schwarz ist im Schach!")
+  }
 
-    if (input == "exit") {
-      return;
+  private def printWinner(field: FieldInterface): Unit = {
+    field.isCheckMate().foreach {
+      case Color.White => println("Schwarz hat gewonnen!")
+      case Color.Black => println("Weiß hat gewonnen!")
     }
-
-    val from = Position.fromChar(input.charAt(0), input.charAt(1).asDigit);
-    val to = Position.fromChar(input.charAt(2), input.charAt(3).asDigit);
-
-    controller.runMoveCommand(from, to);
-
-    if (fakeInput.isEmpty) waitForInput() else waitForInput(fakeInput.tail);
   }
 }

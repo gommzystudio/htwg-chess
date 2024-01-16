@@ -1,30 +1,45 @@
 package model.commands
 
-import model.{GameState, Position}
+import model.field.FieldInterface
 import model.pieces.Piece
+import model.position.PositionInterface
 
-final case class MoveCommand(from: Position, to: Position, gamestate: GameState)
-    extends Command {
-  var movedPiece: Option[Piece] = gamestate.getField().getPiece(to)
-  var capturedPiece: Option[Piece] = gamestate.getField().getPiece(from)
+import scala.util.{Failure, Success, Try}
 
-  def execute(): GameState = {
-    return gamestate.updateField(
-      gamestate
-        .getField()
-        .removePiece(from)
-        .setPiece(to, capturedPiece.get)
-    )
+final case class MoveCommand(
+    from: PositionInterface,
+    to: PositionInterface,
+    field: FieldInterface
+) extends Command {
+  private val movedPiece: Option[Piece] = field.getPiece(from)
+  private val capturedPiece: Option[Piece] = field.getPiece(to)
+
+  override def execute(): Try[FieldInterface] = {
+    movedPiece match {
+      case Some(piece) =>
+        Try {
+          field.removePiece(from).setPiece(to, piece).flipPlayer()
+        }
+      case None =>
+        Failure(new NoSuchElementException("Kein Stück am Startfeld vorhanden"))
+    }
   }
-  def undo(): GameState = {
-    return gamestate.updateField(
-      gamestate
-        .getField()
-        .removePiece(to)
-        .setPiece(from, movedPiece.get)
-    )
-  }
-  def redo(): GameState = {
-    return execute()
+
+  override def undo(): Try[FieldInterface] = {
+    movedPiece match {
+      case Some(piece) =>
+        Try {
+          val fieldWithMovedBack = field.removePiece(to).setPiece(from, piece)
+          capturedPiece.fold(fieldWithMovedBack)(
+            fieldWithMovedBack.setPiece(to, _)
+          )
+        }
+      case None =>
+        Failure(
+          new IllegalStateException(
+            "Rückgängig machen nicht möglich, da kein Stück bewegt wurde"
+          )
+        )
+    }
   }
 }

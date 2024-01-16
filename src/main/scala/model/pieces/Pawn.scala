@@ -3,31 +3,35 @@ package model.pieces
 import scala.annotation.switch
 import scala.collection.mutable.ArrayBuffer
 
-import model.Position
-import model.Field
+import model.position.PositionInterface
+import model.field.FieldInterface
 import model.moves.special.PawnFirstMoveValidator
 import model.moves.special.PawnStandardMoveValidator
 import model.moves.special.PawnCaptureMoveValidator
 import scala.compiletime.ops.boolean
+import model.field.FieldInterface
+import model.position.PositionInterface
+import util.color.Color
 
 class Pawn(c: Color) extends Piece(c) {
-  val isEnPassantable: Boolean = false
+  override def getSymbol() = if (c == Color.White) "♙" else "♟"
 
-  override def getSymbol() = {
-    return if (c == Color.White) "♙" else "♟"
-  }
-
-  override def whiteAvailableMoves(
-      position: Position,
-      field: Field
-  ): List[Position] = {
+  override def availableMoves(
+      position: PositionInterface,
+      field: FieldInterface
+  ): List[PositionInterface] = {
     val standardMoveValidator = new PawnStandardMoveValidator()
     val firstMoveValidator = new PawnFirstMoveValidator()
     val captureMoveValidator = new PawnCaptureMoveValidator()
 
-    standardMoveValidator.setNext(firstMoveValidator)
-    firstMoveValidator.setNext(captureMoveValidator)
+    standardMoveValidator.next(firstMoveValidator)
+    firstMoveValidator.next(captureMoveValidator)
 
-    return standardMoveValidator.getValidMoves(this, position, field, List())
+    return standardMoveValidator.getValidMoves(
+      this,
+      position,
+      field,
+      List()
+    )
   }
 }

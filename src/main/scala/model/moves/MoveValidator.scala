@@ -1,31 +1,33 @@
 package model.moves
 
 import model.pieces.Piece
-import model.Position
-import model.Field
+import model.position.PositionInterface
+import model.field.FieldInterface
 
 trait MoveValidator {
-  var nextMoveValidator: MoveValidator = _
+  var nextMoveValidator: Option[MoveValidator] = None
 
-  def setNext(moveValidator: MoveValidator): Unit = {
-    nextMoveValidator = moveValidator
+  def next(moveValidator: MoveValidator): Unit = {
+    nextMoveValidator = Some(moveValidator)
   }
 
   def callNextMoveValidator(
       piece: Piece,
-      position: Position,
-      field: Field,
-      moves: List[Position]
-  ): List[Position] = {
-    if (nextMoveValidator != null)
-      nextMoveValidator.getValidMoves(piece, position, field, moves)
-    else moves
+      position: PositionInterface,
+      field: FieldInterface,
+      moves: List[PositionInterface]
+  ): List[PositionInterface] = {
+    nextMoveValidator match {
+      case Some(validator) =>
+        validator.getValidMoves(piece, position, field, moves)
+      case None => moves
+    }
   }
 
   def getValidMoves(
       piece: Piece,
-      position: Position,
-      field: Field,
-      moves: List[Position]
-  ): List[Position]
+      position: PositionInterface,
+      field: FieldInterface,
+      moves: List[PositionInterface]
+  ): List[PositionInterface]
 }

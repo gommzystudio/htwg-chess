@@ -1,40 +1,32 @@
 package model.moves.special
 
 import model.moves.MoveValidator
-import model.pieces.Piece
-import model.Position
-import model.Field
-import scala.collection.mutable.ArrayBuffer
-import model.pieces.Pawn
+import model.pieces.{Piece, Pawn}
+import model.field.FieldInterface
+import model.position.{PositionBaseImpl, PositionInterface}
+import util.color.Color
 
 class PawnCaptureMoveValidator extends MoveValidator {
   override def getValidMoves(
       piece: Piece,
-      position: Position,
-      field: Field,
-      moves: List[Position]
-  ): List[Position] = {
+      position: PositionInterface,
+      field: FieldInterface,
+      moves: List[PositionInterface]
+  ): List[PositionInterface] = {
     assert(piece.isInstanceOf[Pawn])
 
-    val newMoves = ArrayBuffer[Position]()
-    val leftPosition = Position(position.x - 1, position.y + 1)
-    val rightPosition = Position(position.x + 1, position.y + 1)
-    if (
-      field.getPiece(leftPosition.x, leftPosition.y) != None && field
-        .getPiece(leftPosition.x, leftPosition.y)
-        .get
-        .color != piece.color
-    ) {
-      newMoves += leftPosition
+    val captureDirections = piece.color match {
+      case Color.White => List((1, 1), (-1, 1))
+      case Color.Black => List((1, -1), (-1, -1))
     }
-    if (
-      field.getPiece(rightPosition.x, rightPosition.y) != None && field
-        .getPiece(rightPosition.x, rightPosition.y)
-        .get
-        .color != piece.color
-    ) {
-      newMoves += rightPosition
-    }
-    return callNextMoveValidator(piece, position, field, newMoves.toList)
+
+    val newMoves = for {
+      (dx, dy) <- captureDirections
+      newPos = PositionBaseImpl(position.getX() + dx, position.getY() + dy)
+      if field.getPiece(newPos).exists(_.color != piece.color) && field
+        .isPositionValid(newPos)
+    } yield newPos
+
+    return callNextMoveValidator(piece, position, field, moves ++ newMoves)
   }
 }

@@ -1,9 +1,9 @@
 package model.commands
 
-import model.GameState
+import model.field.FieldInterface
+import scala.util.Try
 
-abstract class Command() {
-  def execute(): GameState
-  def undo(): GameState
-  def redo(): GameState
+trait Command {
+  def execute(): Try[FieldInterface]
+  def undo(): Try[FieldInterface]
 }
