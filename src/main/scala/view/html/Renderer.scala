@@ -250,13 +250,13 @@ final case class Renderer() {
       case "White" =>
         return """
         <div class="z-10 absolute flex h-full w-full items-center bg-white bg-opacity-50">
-          <h1 class="text-2xl w-full text-center">Weiß hat gewonnen!</h1>
+          <h1 class="text-2xl w-full text-center">Schwarz hat gewonnen!</h1>
         </div>
         """
       case "Black" =>
         return """
         <div class="z-10 absolute flex h-full w-full items-center bg-white bg-opacity-50">
-          <h1 class="text-2xl w-full text-center">Schwarz hat gewonnen!</h1>
+          <h1 class="text-2xl w-full text-center">Weiß hat gewonnen!</h1>
         </div>
         """
       case _ =>
