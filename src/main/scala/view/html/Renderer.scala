@@ -4,9 +4,11 @@ import model.gamestate.GameStateInterface
 import model.position.PositionInterface
 import model.position.PositionBaseImpl
 
+// Renderer class to render the HTML content for the web view.
 final case class Renderer() {
+  // Returns the default HTML structure for the web view.
   def defaultStructure(): String = {
-    return """|<!DOCTYPE html>
+    s"""|<!DOCTYPE html>
            |<html lang="en">
            |<head>
            |    <meta charset="UTF-8">
@@ -54,499 +56,27 @@ final case class Renderer() {
            |""".stripMargin
   }
 
+  // Creates the game board.
   def render(
       gameState: GameStateInterface,
       availableMoves: List[PositionInterface] = List(),
       winner: String
   ): String = {
-    return """
+    s"""
 <div class="bg-gray-100 w-screen h-screen">
   <div class="h-screen w-screen bg-gray-300">
     <div class="flex flex-col gap-3 p-5">
       <div class="w-full rounded-3xl bg-gray-50 shadow-lg text-center justify-center text-gray-400 font-bold relative overflow-hidden">
-        """
-      + showWinner(winner) +
-      """
+        ${showWinnerOverlay(winner)}
 
-        <div class="flex w-full h-8">
-          <div class="w-8"></div>
-          <div class="flex w-full justify-around h-10 items-center text-center">
-            <div>A</div>
-            <div>B</div>
-            <div>C</div>
-            <div>D</div>
-            <div>E</div>
-            <div>F</div>
-            <div>G</div>
-            <div>H</div>
-          </div>
-          <div class="w-8"></div>
-        </div>
+        ${renderBoardBorder()}
 
-        <div class="flex w-full justify-between">
-          <div class="w-8 m-auto">8</div>
-          <div class="grid grid-cols-8 w-full rounded-t-xl overflow-hidden shadow-lg">
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        1,
-        8
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        2,
-        8
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        3,
-        8
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        4,
-        8
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        5,
-        8
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        6,
-        8
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        7,
-        8
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        8,
-        8
-      ) + """</div>
-          </div>
-          <div class="w-8 m-auto">8</div>
-        </div>
+        ${renderBoardRows(gameState, availableMoves)}
 
-        <div class="flex w-full justify-between">
-          <div class="w-8 m-auto">7</div>
-          <div class="grid grid-cols-8 w-full shadow-lg">
-            <div class="bg-gray-900 square" onclick="selectField('a7')">""" + renderPiece(
-        gameState,
-        availableMoves,
-        1,
-        7
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        2,
-        7
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        3,
-        7
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        4,
-        7
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        5,
-        7
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        6,
-        7
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        7,
-        7
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        8,
-        7
-      ) + """</div>
-          </div>
-          <div class="w-8 m-auto">7</div>
-        </div>
-
-        <div class="flex w-full justify-between">
-          <div class="w-8 m-auto">6</div>
-          <div class="grid grid-cols-8 w-full shadow-lg">
-            <div class="bg-gray-200 square"">""" + renderPiece(
-        gameState,
-        availableMoves,
-        1,
-        6
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        2,
-        6
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        3,
-        6
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        4,
-        6
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        5,
-        6
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        6,
-        6
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        7,
-        6
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        8,
-        6
-      ) + """</div>
-          </div>
-          <div class="w-8 m-auto">6</div>
-        </div>
-
-        <div class="flex w-full justify-between relative">
-          <div class="w-8 m-auto">5</div>
-          <div class="grid grid-cols-8 w-full shadow-lg">
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        1,
-        5
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        2,
-        5
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        3,
-        5
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        4,
-        5
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        5,
-        5
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        6,
-        5
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        7,
-        5
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        8,
-        5
-      ) + """</div>
-          </div>
-          <div class="w-8 m-auto">5</div>
-        </div>
-
-        <div class="flex w-full justify-between">
-          <div class="w-8 m-auto">4</div>
-          <div class="grid grid-cols-8 w-full shadow-lg">
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        1,
-        4
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        2,
-        4
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        3,
-        4
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        4,
-        4
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        5,
-        4
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        6,
-        4
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        7,
-        4
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        8,
-        4
-      ) + """</div>
-          </div>
-          <div class="w-8 m-auto">4</div>
-        </div>
-
-        <div class="flex w-full justify-between">
-          <div class="w-8 m-auto">3</div>
-          <div class="grid grid-cols-8 w-full shadow-lg">
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        1,
-        3
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        2,
-        3
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        3,
-        3
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        4,
-        3
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        5,
-        3
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        6,
-        3
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        7,
-        3
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        8,
-        3
-      ) + """</div>
-          </div>
-          <div class="w-8 m-auto">3</div>
-        </div>
-
-        <div class="flex w-full justify-between">
-          <div class="w-8 m-auto">2</div>
-          <div class="grid grid-cols-8 w-full shadow-lg">
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        1,
-        2
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        2,
-        2
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        3,
-        2
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        4,
-        2
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        5,
-        2
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        6,
-        2
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        7,
-        2
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        8,
-        2
-      ) + """</div>
-          </div>
-          <div class="w-8 m-auto">2</div>
-        </div>
-
-        <div class="flex w-full justify-between">
-          <div class="w-8 m-auto">1</div>
-          <div class="grid grid-cols-8 w-full rounded-b-xl overflow-hidden shadow-lg">
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        1,
-        1
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        2,
-        1
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        3,
-        1
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        4,
-        1
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        5,
-        1
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        6,
-        1
-      ) + """</div>
-            <div class="bg-gray-900 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        7,
-        1
-      ) + """</div>
-            <div class="bg-gray-200 square">""" + renderPiece(
-        gameState,
-        availableMoves,
-        8,
-        1
-      ) + """</div>
-          </div>        
-          <div class="w-8 m-auto">1</div>
-        </div>
-
-        <div class="flex w-full h-8">
-          <div class="w-8"></div>
-          <div class="flex w-full justify-around h-10 items-center text-center">
-            <div>A</div>
-            <div>B</div>
-            <div>C</div>
-            <div>D</div>
-            <div>E</div>
-            <div>F</div>
-            <div>G</div>
-            <div>H</div>
-          </div>
-          <div class="w-8"></div>
-        </div>
+        ${renderBoardBorder()}
       </div>
 
-      <div class="flex w-full justify-center gap-5 rounded-3xl bg-gray-50 p-5 text-center font-bold text-gray-400 shadow-lg">
-        <button onclick="undo()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Rückgängig</button>
-        <button onclick="redo()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Wiederherstellen</button>
-
-        <input type="text" id="path" placeholder="Datei" class="w-40 rounded-xl bg-gray-200 px-3" />
-        <button onclick="save()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Speichern</button>
-        <button onclick="load()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Laden</button>
-      </div>
+      ${renderControls()}
     
     </div>
   </div>
@@ -571,6 +101,105 @@ final case class Renderer() {
 """
   }
 
+  // Creates the controls for the game.
+  def renderControls(): String = {
+    s"""
+    <div class="flex w-full justify-center gap-5 rounded-3xl bg-gray-50 p-5 text-center font-bold text-gray-400 shadow-lg">
+      <button onclick="undo()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Rückgängig</button>
+      <button onclick="redo()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Wiederherstellen</button>
+
+      <input type="text" id="path" placeholder="Datei" class="w-40 rounded-xl bg-gray-200 px-3" />
+      <button onclick="save()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Speichern</button>
+      <button onclick="load()" class="w-full rounded-xl bg-gray-200 p-3 font-bold shadow-lg">Laden</button>
+    </div>
+    """
+  }
+
+  // Creates the border at the top and bottom of the board.
+  def renderBoardBorder(): String = {
+    s"""
+        <div class="flex w-full h-8">
+          <div class="w-8"></div>
+          <div class="flex w-full justify-around h-10 items-center text-center">
+            <div>A</div>
+            <div>B</div>
+            <div>C</div>
+            <div>D</div>
+            <div>E</div>
+            <div>F</div>
+            <div>G</div>
+            <div>H</div>
+          </div>
+          <div class="w-8"></div>
+        </div>
+        """
+  }
+
+  // Creates the rows of the board.
+  def renderBoardRows(
+      gameState: GameStateInterface,
+      availableMoves: List[PositionInterface]
+  ): String = {
+    return (8 to 1 by -1)
+      .map { row =>
+        renderBoardRow(gameState, availableMoves, row)
+      }
+      .mkString("")
+  }
+
+  // Creates a row of the board.
+  def renderBoardRow(
+      gameState: GameStateInterface,
+      availableMoves: List[PositionInterface],
+      row: Int
+  ): String =
+    s"""
+        <div class="flex w-full justify-between">
+          <div class="w-8 m-auto">${row}</div>
+          <div class="grid grid-cols-8 w-full overflow-hidden shadow-lg ${getBoardRowRounding(
+        row
+      )}">
+            ${(1 to 8)
+        .map { x =>
+          """
+                <div class="""" + getColor(
+            x,
+            row
+          ) + """ square">""" + renderPiece(
+            gameState,
+            availableMoves,
+            x,
+            row
+          ) + """</div>
+            """
+        }
+        .mkString("")}
+          </div>
+          <div class="w-8 m-auto">${row}</div>
+        </div>
+        """
+
+  // Rounds the top and bottom of the board.
+  def getBoardRowRounding(row: Int): String = {
+    if (row == 8) {
+      return "rounded-t-xl"
+    } else if (row == 1) {
+      return "rounded-b-xl"
+    } else {
+      return ""
+    }
+  }
+
+  // Every second field is grayed out.
+  def getColor(row: Int, col: Int): String = {
+    if ((row + col) % 2 == 1) {
+      return "bg-gray-200"
+    } else {
+      return "bg-gray-700"
+    }
+  }
+
+  // Creates a piece on the board.
   def renderPiece(
       gameState: GameStateInterface,
       availableMoves: List[PositionInterface],
@@ -591,6 +220,7 @@ final case class Renderer() {
     }
   }
 
+  // Creates a possible move on the board.
   def renderPossibleMoves(
       availableMoves: List[PositionInterface],
       x: Int,
@@ -605,7 +235,8 @@ final case class Renderer() {
     }
   }
 
-  def showWinner(winner: String): String = {
+  // Shows the winner overlay if the game is over.
+  def showWinnerOverlay(winner: String): String = {
     winner match {
       case "White" =>
         return """
