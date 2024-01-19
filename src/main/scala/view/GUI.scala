@@ -15,28 +15,34 @@ import model.position.PositionInterface
 import util.updater.UpdaterInterface
 import model.pieces.Piece
 
+// GUI class using JavaFX for graphical user interface.
+// Problem: Only working way for communication between Scala and JavaScript are alerts. But it works fine.
 class GUI(controller: ControllerInterface)
     extends JFXApp3
     with ViewInterface(controller.asInstanceOf[UpdaterInterface]) {
 
   private var webEngine: WebEngine = _
 
+  // Start method to initialize the GUI.
   override def start(): Unit = {
     val webView = new WebView()
     setupWebView(webView)
     setupStage(webView)
   }
 
+  // Sets up the web view component.
   private def setupWebView(webView: WebView): Unit = {
     webView.engine.loadContent(loadHtmlContent())
     setupEngineListener(webView.engine)
     webEngine = webView.engine
   }
 
+  // Loads HTML content for the web view.
   private def loadHtmlContent(): String = {
     new Renderer().defaultStructure()
   }
 
+  // Sets up a listener for the web engine.
   private def setupEngineListener(engine: WebEngine): Unit = {
     engine.getLoadWorker.stateProperty.addListener((_, _, newState) => {
       if (newState == State.SUCCEEDED) {
@@ -46,10 +52,12 @@ class GUI(controller: ControllerInterface)
     })
   }
 
+  // Sets up an alert handler for JavaScript alerts in the web engine.
   private def setupAlertHandler(engine: WebEngine): Unit = {
     engine.onAlert = { event => handleAlert(event.getData) }
   }
 
+  // Handles alerts and executes appropriate actions based on alert data.
   private def handleAlert(data: String): Unit = {
     val args = data.split(";")
     val command = args(0)
@@ -64,6 +72,7 @@ class GUI(controller: ControllerInterface)
     }
   }
 
+  // Processes a move command.
   private def processMoveCommand(from: String, to: String): Unit = {
     val fromPos =
       PositionBaseImpl(from.charAt(0).asDigit, from.charAt(1).asDigit)
@@ -71,6 +80,7 @@ class GUI(controller: ControllerInterface)
     controller.runMoveCommand(fromPos, toPos)
   }
 
+  // Processes a command to load possible moves for a piece.
   private def processLoadMovesCommand(position: String): Unit = {
     val pos =
       PositionBaseImpl(position.charAt(0).asDigit, position.charAt(1).asDigit)
@@ -83,6 +93,7 @@ class GUI(controller: ControllerInterface)
     }
   }
 
+  // Filters out moves that would put the player in check.
   private def filterMovesForCheck(
       moves: List[PositionInterface],
       fromPos: PositionInterface,
@@ -96,6 +107,7 @@ class GUI(controller: ControllerInterface)
     }
   }
 
+  // Sets up the main stage for the application.
   private def setupStage(webView: WebView): Unit = {
     stage = new JFXApp3.PrimaryStage {
       title = "Chess"
@@ -109,12 +121,14 @@ class GUI(controller: ControllerInterface)
     }
   }
 
+  // Updates the GUI based on the current game state.
   override def update(gameState: GameStateInterface): Unit = {
     Platform.runLater(() => {
       updateGuiWithGameState(gameState)
     })
   }
 
+  // Updates the web view with the current game state and available moves.
   private def updateGuiWithGameState(
       gameState: GameStateInterface,
       availableMoves: List[PositionInterface] = List()
