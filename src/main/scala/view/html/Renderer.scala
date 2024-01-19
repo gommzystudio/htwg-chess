@@ -3,6 +3,8 @@ package view.html
 import model.gamestate.GameStateInterface
 import model.position.PositionInterface
 import model.position.PositionBaseImpl
+import model.pieces.Piece
+import util.color.Color
 
 // Renderer class to render the HTML content for the web view.
 final case class Renderer() {
@@ -193,9 +195,9 @@ final case class Renderer() {
   // Every second field is grayed out.
   def getColor(row: Int, col: Int): String = {
     if ((row + col) % 2 == 1) {
-      return "bg-gray-200"
+      return "bg-gray-300"
     } else {
-      return "bg-gray-700"
+      return "bg-gray-600"
     }
   }
 
@@ -209,14 +211,21 @@ final case class Renderer() {
     val piece = gameState.getField().getPiece(PositionBaseImpl(x, y))
     piece match {
       case Some(piece) =>
-        return """<div class="cursor-pointer" onclick="startDrag('""" + x + y + """')">""" + piece
-          .getSymbol() + """</div>""" + renderPossibleMoves(
-          availableMoves,
-          x,
-          y
-        )
+        return s"""<div class="cursor-pointer ${getColor(
+            piece
+          )}" onclick="startDrag('$x$y')">${piece
+            .getSymbol()}</div>${renderPossibleMoves(availableMoves, x, y)}"""
       case None =>
         return renderPossibleMoves(availableMoves, x, y)
+    }
+  }
+
+  // Returns the correct color for a piece.
+  def getColor(piece: Piece): String = {
+    if (piece.color == Color.White) {
+      return "text-gray-100"
+    } else {
+      return "text-gray-800"
     }
   }
 

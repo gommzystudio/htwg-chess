@@ -4,6 +4,8 @@ import model.pieces.Piece
 import model.position.PositionInterface
 import model.field.FieldInterface
 
+// MoveValidator is a trait that is used to determine the valid moves of a piece in chess.
+// You can use multiple MoveValidators in a chain to determine the valid moves of a specific piece.
 trait MoveValidator {
   var nextMoveValidator: Option[MoveValidator] = None
 

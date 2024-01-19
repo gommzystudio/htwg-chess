@@ -76,6 +76,7 @@ class ControllerBaseImpl @Inject() (
     val newGameState =
       gameState.executeCommand(new MoveCommand(from, to, gameState.getField()))
 
+    // Check if the move results in check.
     if (newGameState.getField().isCheck(piece.color)) {
       println("Das sorgt für ein Schach")
     } else {

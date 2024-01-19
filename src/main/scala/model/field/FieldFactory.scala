@@ -8,7 +8,9 @@ import model.field.FieldBaseImpl
 import model.position.PositionBaseImpl
 import util.color.Color
 
+// Factory class to create fields for specific use cases.
 object FieldFactory {
+  // Creates a field for the end game example.
   def createEndGameExample(): FieldBaseImpl = {
     return FieldBaseImpl(
       Map(
@@ -19,6 +21,7 @@ object FieldFactory {
     );
   }
 
+  // Creates a field for the check mate example.
   def createCheckMateExample(): FieldBaseImpl = {
     return FieldBaseImpl(
       Map(
@@ -30,6 +33,7 @@ object FieldFactory {
     );
   }
 
+  // Creates the initial field for a new game.
   def createInitialField(): FieldBaseImpl = {
     return FieldBaseImpl(
       Map(
