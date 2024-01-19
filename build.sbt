@@ -20,28 +20,8 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
 libraryDependencies += "net.codingwell" %% "scala-guice" % "7.0.0"
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.3"
 
-libraryDependencies ++= {
-  // Determine OS version of JavaFX binaries
-  lazy val osName = System.getProperty("os.name") match {
-    case n if n.startsWith("Linux")   => "linux"
-    case n if n.startsWith("Mac")     => "mac"
-    case n if n.startsWith("Windows") => "win"
-    case _ => throw new Exception("Unknown platform!")
-  }
-  Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
-    .map(m => "org.openjfx" % s"javafx-$m" % "16" classifier osName)
-}
-
 fork := true
 connectInput := true
-
-// JavaFX auf Mac:
-javaOptions in run ++= Seq(
-  "--module-path",
-  "javafx-sdk-21.0.1/lib",
-  "--add-modules",
-  "javafx.controls,javafx.fxml,javafx.web"
-)
 
 // JavaFX in Docker:
 // javaOptions in run ++= Seq(
