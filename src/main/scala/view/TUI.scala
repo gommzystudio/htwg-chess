@@ -25,16 +25,15 @@ class TUI(controller: ControllerInterface)
     println("Enter move (e.g. a2a3): ")
     val input = scala.io.StdIn.readLine(">> ")
 
-    // Exits the program if 'exit' is entered.
     if (input == "exit") {
       return
     }
-    // Calls undo method on the controller if 'undo' is entered.
+
     if (input == "undo")
       controller.undoCommand()
-    // Calls redo method on the controller if 'redo' is entered.
     else if (input == "redo")
       controller.redoCommand()
+      
     // Processes a move command if the input length is 4 characters (e.g., a2a4).
     else if (input.length() == 4) {
       val from =

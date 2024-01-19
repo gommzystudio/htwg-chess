@@ -5,6 +5,7 @@ import model.position.PositionInterface
 import model.position.PositionBaseImpl
 import model.pieces.Piece
 import util.color.Color
+import scala.io.Source
 
 // Renderer class to render the HTML content for the web view.
 final case class Renderer() {
@@ -16,7 +17,6 @@ final case class Renderer() {
            |    <meta charset="UTF-8">
            |    <meta name="viewport" content="width=device-width, initial-scale=1.0">
            |    <title>Chess</title>
-           |    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">  
            |    <script>
            |  var startField = null;
            |
@@ -98,10 +98,19 @@ final case class Renderer() {
   align-items: center;
   font-size: 3rem; /* Größe der Schachfigur */
 }
+
+${tailwindStyles()}
 </style>
 
 """
   }
+
+  // Returns the tailwind styles for the board.
+  def tailwindStyles(): String =
+    Source
+      .fromResource("tailwind.css")
+      .getLines()
+      .mkString("\n")
 
   // Creates the controls for the game.
   def renderControls(): String = {
@@ -250,13 +259,13 @@ final case class Renderer() {
       case "White" =>
         return """
         <div class="z-10 absolute flex h-full w-full items-center bg-white bg-opacity-50">
-          <h1 class="text-2xl w-full text-center">Schwarz hat gewonnen!</h1>
+          <h1 class="text-2xl w-full text-center text-black">Schwarz hat gewonnen!</h1>
         </div>
         """
       case "Black" =>
         return """
         <div class="z-10 absolute flex h-full w-full items-center bg-white bg-opacity-50">
-          <h1 class="text-2xl w-full text-center">Weiß hat gewonnen!</h1>
+          <h1 class="text-2xl w-full text-center text-white">Weiß hat gewonnen!</h1>
         </div>
         """
       case _ =>
